@@ -1,13 +1,13 @@
 {
   "name": "e-curuza-apis",
   "version": "1.0.0",
-  "main": "src/server.js",
+  "main": "dist/server.js",
   "type": "module",
   "license": "MIT",
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
-    "start": "node src/server.js",
+    "start": "node dist/server.js",
     "start:dev": "tsx src/server.ts",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
