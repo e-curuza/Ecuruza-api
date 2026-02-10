@@ -279,3 +279,4 @@ INFO::2026-02-10T12:12:17.195Z: Token refreshed | {}
 ERROR::2026-02-10T12:13:12.219Z: Failed to send password reset email to dushimec515@gmail.com: getaddrinfo EAI_AGAIN smtp.example.com | {}
 INFO::2026-02-10T12:13:12.220Z: Password reset email sent to: dushimec515@gmail.com | {}
 INFO::2026-02-10T12:13:12.221Z: If an account exists, a reset link will be sent | {}
+INFO::2026-02-10T22:14:02.382Z: Prisma Info: Starting a postgresql pool with 5 connections. | {"action":"prisma_info"}

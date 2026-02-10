@@ -2,10 +2,10 @@ import type { Request, Response, NextFunction } from 'express';
 import { PrismaClient } from '@prisma/client';
 import createError from 'http-errors';
 import crypto from 'crypto';
-import { logger } from '../utils/logger';
-import { ApiResponseBuilder, type ApiResponse } from '../utils/ApiResponse';
-import { hashPassword, comparePassword, generateTokenPair, verifyRefreshToken } from '../utils/auth.utils';
-import { generateAndUploadAvatar } from '../utils/avatar.generate';
+import { logger } from '../utils/logger.js';
+import { ApiResponseBuilder, type ApiResponse } from '../utils/ApiResponse.js';
+import { hashPassword, comparePassword, generateTokenPair, verifyRefreshToken } from '../utils/auth.utils.js';
+import { generateAndUploadAvatar } from '../utils/avatar.generate.js';
 import {
   generateResetToken,
   hashResetToken,
@@ -13,10 +13,10 @@ import {
   getGoogleAuthUrl,
   exchangeCodeForTokens,
   getGoogleUserInfo,
-} from '../utils/password.reset';
-import { createOrUpdateOTP, verifyOTP, deleteOTP } from '../utils/otp.utils';
-import { sendVerificationEmail, sendPasswordResetEmail, sendPasswordChangeConfirmationEmail } from '../services/email.service';
-import type { AuthResponse, UserResponse, RegisterRequest, LoginRequest, AuthPayload } from '../utils/type';
+} from '../utils/password.reset.js';
+import { createOrUpdateOTP, verifyOTP, deleteOTP } from '../utils/otp.utils.js';
+import { sendVerificationEmail, sendPasswordResetEmail, sendPasswordChangeConfirmationEmail } from '../services/email.service.js';
+import type { AuthResponse, UserResponse, RegisterRequest, LoginRequest, AuthPayload } from '../utils/type.js';
 
 const prisma = new PrismaClient();
 

@@ -1,6 +1,6 @@
 import multer from 'multer';
-import { r2Service } from '../services/r2.service';
-import { r2Config } from '../config/r2.config';
+import { r2Service } from '../services/r2.service.js';
+import { r2Config } from '../config/r2.config.js';
 import type { Request } from 'express';
 import createError from 'http-errors';
 

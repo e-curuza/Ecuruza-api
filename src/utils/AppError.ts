@@ -1,4 +1,4 @@
-import { logger, LogLevel } from "./logger";
+import { logger, LogLevel } from "./logger.js";
 
 export enum ErrorCode {
   BAD_REQUEST = "BAD_REQUEST",

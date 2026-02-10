@@ -1,6 +1,6 @@
 import sharp from 'sharp';
-import { avatarConfig } from '../config/avatar.config';
-import { uploadAvatar } from './upload.file';
+import { avatarConfig } from '../config/avatar.config.js';
+import { uploadAvatar } from './upload.file.js';
 import crypto from 'crypto';
 
 interface AvatarOptions {

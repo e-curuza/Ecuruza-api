@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-import { logger } from './logger';
-import type { AuthPayload, TokenPayload } from './type';
+import { logger } from './logger.js';
+import type { AuthPayload, TokenPayload } from './type.js';
 import createError from 'http-errors';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-super-secret-jwt-key-change-in-production';

@@ -1,8 +1,8 @@
 import { type Request, type Response, type NextFunction } from 'express';
-import { verifyAccessToken, verifyRefreshToken, extractTokenFromHeader } from '../utils/auth.utils';
-import type { TokenPayload } from '../utils/type';
+import { verifyAccessToken, verifyRefreshToken, extractTokenFromHeader } from '../utils/auth.utils.js';
+import type { TokenPayload } from '../utils/type.js';
 import createError from 'http-errors';
-import { logger } from '../utils/logger';
+import { logger } from '../utils/logger.js';
 
 export interface AuthenticatedRequest extends Request {
   user?: TokenPayload;

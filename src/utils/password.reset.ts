@@ -1,5 +1,5 @@
 import crypto from 'crypto';
-import { passwordResetConfig } from '../config/auth.config';
+import { passwordResetConfig } from '../config/auth.config.js';
 
 export function generateResetToken(): string {
   return crypto.randomBytes(passwordResetConfig.tokenLength).toString('hex');

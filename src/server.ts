@@ -5,13 +5,13 @@ import morgan from "morgan";
 import rateLimit, { ipKeyGenerator } from "express-rate-limit";
 import createError, { HttpError } from "http-errors";
 
-import { setupSwagger } from "./config/swagger";
-import { prisma } from "./config/db";
-import { logger, initializeLogCleanupJob } from "./utils/logger";
-import { ApiResponseBuilder, ResponseStatus } from "./utils/ApiResponse";
-import { isAppError, AppError, extractErrorInfo } from "./utils/AppError";
+import { setupSwagger } from "./config/swagger.js";
+import { prisma } from "./config/db.js";
+import { logger, initializeLogCleanupJob } from "./utils/logger.js";
+import { ApiResponseBuilder, ResponseStatus } from "./utils/ApiResponse.js";
+import { isAppError, AppError, extractErrorInfo } from "./utils/AppError.js";
 
-import authRoutes from "./routes/aurh.route";
+import authRoutes from "./routes/aurh.route.js";
 
 const app: Express = express();
 

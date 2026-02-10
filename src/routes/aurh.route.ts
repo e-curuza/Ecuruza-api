@@ -13,8 +13,8 @@ import {
   resendVerificationCode,
   verifyEmail,
   logout,
-} from '../controllers/auth.controller';
-import { authenticate } from '../middlewares/authenticate';
+} from '../controllers/auth.controller.js';
+import { authenticate } from '../middlewares/authenticate.js';
 import {
   registerValidation,
   loginValidation,
@@ -26,7 +26,7 @@ import {
   verifyEmailValidation,
   resendVerificationValidation,
   validate,
-} from '../middlewares/validations/auth.validate';
+} from '../middlewares/validations/auth.validate.js';
 
 const router = Router();
 

@@ -1,6 +1,6 @@
-import { r2Service } from '../services/r2.service';
-import type { UploadOptions, UploadResult } from '../services/r2.service';
-import { logger } from './logger';
+import { r2Service } from '../services/r2.service.js';
+import type { UploadOptions, UploadResult } from '../services/r2.service.js';
+import { logger } from './logger.js';
 import createError from 'http-errors';
 import crypto from 'crypto';
 
