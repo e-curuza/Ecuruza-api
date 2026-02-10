@@ -1,0 +1,281 @@
+INFO::2026-02-04T10:46:02.144Z: Prisma Info: Starting a postgresql pool with 5 connections. | {"action":"prisma_info"}
+INFO::2026-02-04T10:46:02.646Z: Database connection established successfully | {"action":"server_startup"}
+INFO::2026-02-04T10:46:02.673Z: Log cleanup job initialized | {"action":"server_startup"}
+INFO::2026-02-04T10:46:02.681Z: Server running in development mode | {"action":"server_startup","meta":{"port":4003,"environment":"development"}}
+INFO::2026-02-04T10:46:02.681Z: 🚀 Server ready at http://localhost:4003/api/v1 | {}
+INFO::2026-02-04T10:46:02.682Z: 📚 API Documentation available at http://localhost:4003/api-docs | {}
+INFO::2026-02-04T10:47:43.611Z: Prisma Info: Starting a postgresql pool with 5 connections. | {"action":"prisma_info"}
+INFO::2026-02-04T10:47:43.718Z: Database connection established successfully | {"action":"server_startup"}
+INFO::2026-02-04T10:47:43.759Z: Log cleanup job initialized | {"action":"server_startup"}
+INFO::2026-02-04T10:47:43.768Z: Server running in development mode | {"action":"server_startup","meta":{"port":4003,"environment":"development"}}
+INFO::2026-02-04T10:47:43.769Z: 🚀 Server ready at http://localhost:4003/api/v1 | {}
+INFO::2026-02-04T10:47:43.771Z: 📚 API Documentation available at http://localhost:4003/api-docs | {}
+INFO::2026-02-04T10:51:19.101Z: SIGINT received. Starting graceful shutdown... | {"action":"graceful_shutdown"}
+INFO::2026-02-04T10:51:19.111Z: HTTP server closed | {"action":"graceful_shutdown"}
+INFO::2026-02-04T10:51:19.128Z: Database connection closed | {"action":"graceful_shutdown"}
+INFO::2026-02-04T10:54:26.118Z: Prisma Info: Starting a postgresql pool with 5 connections. | {"action":"prisma_info"}
+INFO::2026-02-04T10:54:26.316Z: Database connection established successfully | {"action":"server_startup"}
+INFO::2026-02-04T10:54:26.350Z: Log cleanup job initialized | {"action":"server_startup"}
+INFO::2026-02-04T10:54:26.378Z: Server running in development mode | {"action":"server_startup","meta":{"port":4003,"environment":"development"}}
+INFO::2026-02-04T10:54:26.378Z: 🚀 Server ready at http://localhost:4003/api/v1 | {}
+INFO::2026-02-04T10:54:26.379Z: 📚 API Documentation available at http://localhost:4003/api-docs | {}
+INFO::2026-02-04T10:55:00.348Z: SIGTERM received. Starting graceful shutdown... | {"action":"graceful_shutdown"}
+INFO::2026-02-04T10:55:00.352Z: HTTP server closed | {"action":"graceful_shutdown"}
+INFO::2026-02-04T10:55:00.365Z: Database connection closed | {"action":"graceful_shutdown"}
+INFO::2026-02-04T10:55:04.633Z: Prisma Info: Starting a postgresql pool with 5 connections. | {"action":"prisma_info"}
+INFO::2026-02-04T10:55:04.675Z: Database connection established successfully | {"action":"server_startup"}
+INFO::2026-02-04T10:55:04.702Z: Log cleanup job initialized | {"action":"server_startup"}
+INFO::2026-02-04T10:55:04.714Z: Server running in development mode | {"action":"server_startup","meta":{"port":4003,"environment":"development"}}
+INFO::2026-02-04T10:55:04.715Z: 🚀 Server ready at http://localhost:4003/api/v1 | {}
+INFO::2026-02-04T10:55:04.716Z: 📚 API Documentation available at http://localhost:4003/api-docs | {}
+INFO::2026-02-04T10:55:08.922Z: SIGTERM received. Starting graceful shutdown... | {"action":"graceful_shutdown"}
+INFO::2026-02-04T10:55:08.925Z: HTTP server closed | {"action":"graceful_shutdown"}
+INFO::2026-02-04T10:55:08.934Z: Database connection closed | {"action":"graceful_shutdown"}
+INFO::2026-02-04T10:55:11.879Z: Prisma Info: Starting a postgresql pool with 5 connections. | {"action":"prisma_info"}
+INFO::2026-02-04T10:55:11.939Z: Database connection established successfully | {"action":"server_startup"}
+INFO::2026-02-04T10:55:11.963Z: Log cleanup job initialized | {"action":"server_startup"}
+INFO::2026-02-04T10:55:11.974Z: Server running in development mode | {"action":"server_startup","meta":{"port":4003,"environment":"development"}}
+INFO::2026-02-04T10:55:11.975Z: 🚀 Server ready at http://localhost:4003/api/v1 | {}
+INFO::2026-02-04T10:55:11.976Z: 📚 API Documentation available at http://localhost:4003/api-docs | {}
+INFO::2026-02-04T11:01:26.445Z: Prisma Info: Starting a postgresql pool with 5 connections. | {"action":"prisma_info"}
+INFO::2026-02-04T11:01:27.031Z: Database connection established successfully | {"action":"server_startup"}
+INFO::2026-02-04T11:01:27.092Z: Log cleanup job initialized | {"action":"server_startup"}
+INFO::2026-02-04T11:01:27.104Z: Server running in development mode | {"action":"server_startup","meta":{"port":4003,"environment":"development"}}
+INFO::2026-02-04T11:01:27.105Z: 🚀 Server ready at http://localhost:4003/api/v1 | {}
+INFO::2026-02-04T11:01:27.107Z: 📚 API Documentation available at http://localhost:4003/api-docs | {}
+INFO::2026-02-04T11:04:26.598Z: Prisma Info: Starting a postgresql pool with 5 connections. | {"action":"prisma_info"}
+INFO::2026-02-04T11:04:26.929Z: Database connection established successfully | {"action":"server_startup"}
+INFO::2026-02-04T11:04:26.984Z: Log cleanup job initialized | {"action":"server_startup"}
+INFO::2026-02-04T11:04:26.995Z: Server running in development mode | {"action":"server_startup","meta":{"port":4003,"environment":"development"}}
+INFO::2026-02-04T11:04:26.997Z: 🚀 Server ready at http://localhost:4003/api/v1 | {}
+INFO::2026-02-04T11:04:26.998Z: 📚 API Documentation available at http://localhost:4003/api-docs | {}
+ERROR::2026-02-04T11:08:44.676Z: A database error occurred | {}
+WARN::2026-02-04T11:11:30.876Z: Failed to generate avatar: Failed to generate avatar | {}
+INFO::2026-02-04T11:11:31.017Z: User registered: dushimec515@gmail.com | {}
+INFO::2026-02-04T11:11:31.020Z: User registered successfully | {"action":"created"}
+INFO::2026-02-04T11:11:54.894Z: User logged in: dushimec515@gmail.com | {}
+INFO::2026-02-04T11:11:54.895Z: Login successful | {}
+INFO::2026-02-04T11:14:37.284Z: SIGTERM received. Starting graceful shutdown... | {"action":"graceful_shutdown"}
+INFO::2026-02-04T11:14:37.293Z: HTTP server closed | {"action":"graceful_shutdown"}
+INFO::2026-02-04T11:14:37.483Z: Database connection closed | {"action":"graceful_shutdown"}
+INFO::2026-02-04T11:14:51.873Z: Prisma Info: Starting a postgresql pool with 5 connections. | {"action":"prisma_info"}
+INFO::2026-02-04T11:14:52.023Z: Database connection established successfully | {"action":"server_startup"}
+INFO::2026-02-04T11:14:52.091Z: Log cleanup job initialized | {"action":"server_startup"}
+INFO::2026-02-04T11:14:52.132Z: Server running in development mode | {"action":"server_startup","meta":{"port":4003,"environment":"development"}}
+INFO::2026-02-04T11:14:52.133Z: 🚀 Server ready at http://localhost:4003/api/v1 | {}
+INFO::2026-02-04T11:14:52.139Z: 📚 API Documentation available at http://localhost:4003/api-docs | {}
+INFO::2026-02-04T11:16:43.517Z: Prisma Info: Starting a postgresql pool with 5 connections. | {"action":"prisma_info"}
+INFO::2026-02-04T11:16:43.625Z: Database connection established successfully | {"action":"server_startup"}
+INFO::2026-02-04T11:16:43.655Z: Log cleanup job initialized | {"action":"server_startup"}
+INFO::2026-02-04T11:16:43.663Z: Server running in development mode | {"action":"server_startup","meta":{"port":4003,"environment":"development"}}
+INFO::2026-02-04T11:16:43.665Z: 🚀 Server ready at http://localhost:4003/api/v1 | {}
+INFO::2026-02-04T11:16:43.666Z: 📚 API Documentation available at http://localhost:4003/api-docs | {}
+INFO::2026-02-04T11:20:31.307Z: SIGTERM received. Starting graceful shutdown... | {"action":"graceful_shutdown"}
+INFO::2026-02-04T11:21:42.009Z: Prisma Info: Starting a postgresql pool with 5 connections. | {"action":"prisma_info"}
+INFO::2026-02-04T11:21:42.627Z: Database connection established successfully | {"action":"server_startup"}
+INFO::2026-02-04T11:21:42.663Z: Log cleanup job initialized | {"action":"server_startup"}
+INFO::2026-02-04T11:21:42.672Z: Server running in development mode | {"action":"server_startup","meta":{"port":4003,"environment":"development"}}
+INFO::2026-02-04T11:21:42.674Z: 🚀 Server ready at http://localhost:4003/api/v1 | {}
+INFO::2026-02-04T11:21:42.675Z: 📚 API Documentation available at http://localhost:4003/api-docs | {}
+ERROR::2026-02-04T11:22:24.376Z: Error: User with this email or phone already exists | {"action":"error_handler"}
+ERROR::2026-02-04T11:22:24.379Z: User with this email or phone already exists | {}
+INFO::2026-02-04T11:23:21.508Z: User logged in: dushimec515@gmail.com | {}
+INFO::2026-02-04T11:23:21.509Z: Login successful | {}
+INFO::2026-02-04T11:24:11.798Z: Google auth URL | {}
+INFO::2026-02-04T11:31:38.396Z: SIGTERM received. Starting graceful shutdown... | {"action":"graceful_shutdown"}
+INFO::2026-02-04T11:32:00.395Z: Prisma Info: Starting a postgresql pool with 5 connections. | {"action":"prisma_info"}
+INFO::2026-02-04T11:32:01.145Z: Database connection established successfully | {"action":"server_startup"}
+INFO::2026-02-04T11:32:01.207Z: Log cleanup job initialized | {"action":"server_startup"}
+INFO::2026-02-04T11:32:01.242Z: Server running in development mode | {"action":"server_startup","meta":{"port":4003,"environment":"development"}}
+INFO::2026-02-04T11:32:01.242Z: 🚀 Server ready at http://localhost:4003/api/v1 | {}
+INFO::2026-02-04T11:32:01.243Z: 📚 API Documentation available at http://localhost:4003/api-docs | {}
+INFO::2026-02-04T11:33:21.142Z: SIGTERM received. Starting graceful shutdown... | {"action":"graceful_shutdown"}
+INFO::2026-02-04T11:33:21.160Z: HTTP server closed | {"action":"graceful_shutdown"}
+INFO::2026-02-04T11:33:21.900Z: Database connection closed | {"action":"graceful_shutdown"}
+INFO::2026-02-04T11:33:36.735Z: Prisma Info: Starting a postgresql pool with 5 connections. | {"action":"prisma_info"}
+INFO::2026-02-04T11:33:37.106Z: Database connection established successfully | {"action":"server_startup"}
+INFO::2026-02-04T11:33:37.339Z: Log cleanup job initialized | {"action":"server_startup"}
+INFO::2026-02-04T11:33:37.352Z: Server running in development mode | {"action":"server_startup","meta":{"port":4003,"environment":"development"}}
+INFO::2026-02-04T11:33:37.355Z: 🚀 Server ready at http://localhost:4003/api/v1 | {}
+INFO::2026-02-04T11:33:37.358Z: 📚 API Documentation available at http://localhost:4003/api-docs | {}
+INFO::2026-02-04T11:33:38.916Z: SIGTERM received. Starting graceful shutdown... | {"action":"graceful_shutdown"}
+INFO::2026-02-04T11:33:38.932Z: HTTP server closed | {"action":"graceful_shutdown"}
+INFO::2026-02-04T11:33:38.974Z: Database connection closed | {"action":"graceful_shutdown"}
+INFO::2026-02-04T11:33:49.635Z: Prisma Info: Starting a postgresql pool with 5 connections. | {"action":"prisma_info"}
+INFO::2026-02-04T11:33:49.757Z: Database connection established successfully | {"action":"server_startup"}
+INFO::2026-02-04T11:33:49.786Z: Log cleanup job initialized | {"action":"server_startup"}
+INFO::2026-02-04T11:33:49.803Z: Server running in development mode | {"action":"server_startup","meta":{"port":4003,"environment":"development"}}
+INFO::2026-02-04T11:33:49.806Z: 🚀 Server ready at http://localhost:4003/api/v1 | {}
+INFO::2026-02-04T11:33:49.808Z: 📚 API Documentation available at http://localhost:4003/api-docs | {}
+INFO::2026-02-04T11:33:56.348Z: SIGTERM received. Starting graceful shutdown... | {"action":"graceful_shutdown"}
+INFO::2026-02-04T11:33:56.370Z: HTTP server closed | {"action":"graceful_shutdown"}
+INFO::2026-02-04T11:33:56.405Z: Database connection closed | {"action":"graceful_shutdown"}
+INFO::2026-02-04T11:34:02.774Z: Prisma Info: Starting a postgresql pool with 5 connections. | {"action":"prisma_info"}
+INFO::2026-02-04T11:34:02.848Z: Database connection established successfully | {"action":"server_startup"}
+INFO::2026-02-04T11:34:02.877Z: Log cleanup job initialized | {"action":"server_startup"}
+INFO::2026-02-04T11:34:02.886Z: Server running in development mode | {"action":"server_startup","meta":{"port":4003,"environment":"development"}}
+INFO::2026-02-04T11:34:02.886Z: 🚀 Server ready at http://localhost:4003/api/v1 | {}
+INFO::2026-02-04T11:34:02.887Z: 📚 API Documentation available at http://localhost:4003/api-docs | {}
+INFO::2026-02-04T12:36:26.110Z: Prisma Info: Starting a postgresql pool with 5 connections. | {"action":"prisma_info"}
+INFO::2026-02-04T12:36:26.426Z: Database connection established successfully | {"action":"server_startup"}
+INFO::2026-02-04T12:36:26.458Z: Log cleanup job initialized | {"action":"server_startup"}
+INFO::2026-02-04T12:36:26.471Z: Server running in development mode | {"action":"server_startup","meta":{"port":4003,"environment":"development"}}
+INFO::2026-02-04T12:36:26.472Z: 🚀 Server ready at http://localhost:4003/api/v1 | {}
+INFO::2026-02-04T12:36:26.473Z: 📚 API Documentation available at http://localhost:4003/api-docs | {}
+ERROR::2026-02-04T12:38:08.321Z: Failed to upload file to R2 Credential access key has length 64, should be 32 | {}
+WARN::2026-02-04T12:38:08.343Z: Failed to generate avatar: Failed to generate avatar | {}
+INFO::2026-02-04T12:38:08.350Z: User registered: dushime515@gmail.com | {}
+INFO::2026-02-04T12:38:08.351Z: User registered successfully | {"action":"created"}
+INFO::2026-02-09T12:12:49.019Z: Prisma Info: Starting a postgresql pool with 5 connections. | {"action":"prisma_info"}
+INFO::2026-02-09T12:12:49.702Z: Database connection established successfully | {"action":"server_startup"}
+INFO::2026-02-09T12:12:49.763Z: Log cleanup job initialized | {"action":"server_startup"}
+INFO::2026-02-09T12:12:49.778Z: Server running in development mode | {"action":"server_startup","meta":{"port":4003,"environment":"development"}}
+INFO::2026-02-09T12:12:49.779Z: 🚀 Server ready at http://localhost:4003/api/v1 | {}
+INFO::2026-02-09T12:12:49.780Z: 📚 API Documentation available at http://localhost:4003/api-docs | {}
+INFO::2026-02-09T12:22:35.037Z: SIGTERM received. Starting graceful shutdown... | {"action":"graceful_shutdown"}
+INFO::2026-02-09T12:22:44.619Z: Prisma Info: Starting a postgresql pool with 5 connections. | {"action":"prisma_info"}
+INFO::2026-02-09T12:22:44.745Z: Database connection established successfully | {"action":"server_startup"}
+INFO::2026-02-09T12:22:44.815Z: Log cleanup job initialized | {"action":"server_startup"}
+INFO::2026-02-09T12:22:44.822Z: Server running in development mode | {"action":"server_startup","meta":{"port":4003,"environment":"development"}}
+INFO::2026-02-09T12:22:44.823Z: 🚀 Server ready at http://localhost:4003/api/v1 | {}
+INFO::2026-02-09T12:22:44.823Z: 📚 API Documentation available at http://localhost:4003/api-docs | {}
+INFO::2026-02-09T12:22:45.476Z: SIGTERM received. Starting graceful shutdown... | {"action":"graceful_shutdown"}
+INFO::2026-02-09T12:22:45.485Z: HTTP server closed | {"action":"graceful_shutdown"}
+INFO::2026-02-09T12:22:45.497Z: Database connection closed | {"action":"graceful_shutdown"}
+INFO::2026-02-09T12:22:48.919Z: Prisma Info: Starting a postgresql pool with 5 connections. | {"action":"prisma_info"}
+INFO::2026-02-09T12:22:49.028Z: Database connection established successfully | {"action":"server_startup"}
+INFO::2026-02-09T12:22:49.064Z: Log cleanup job initialized | {"action":"server_startup"}
+INFO::2026-02-09T12:22:49.079Z: Server running in development mode | {"action":"server_startup","meta":{"port":4003,"environment":"development"}}
+INFO::2026-02-09T12:22:49.082Z: 🚀 Server ready at http://localhost:4003/api/v1 | {}
+INFO::2026-02-09T12:22:49.087Z: 📚 API Documentation available at http://localhost:4003/api-docs | {}
+INFO::2026-02-09T12:23:06.720Z: SIGTERM received. Starting graceful shutdown... | {"action":"graceful_shutdown"}
+INFO::2026-02-09T12:23:06.723Z: HTTP server closed | {"action":"graceful_shutdown"}
+INFO::2026-02-09T12:23:06.731Z: Database connection closed | {"action":"graceful_shutdown"}
+INFO::2026-02-09T12:23:09.568Z: Prisma Info: Starting a postgresql pool with 5 connections. | {"action":"prisma_info"}
+INFO::2026-02-09T12:23:09.619Z: Database connection established successfully | {"action":"server_startup"}
+INFO::2026-02-09T12:23:09.642Z: Log cleanup job initialized | {"action":"server_startup"}
+INFO::2026-02-09T12:23:09.649Z: Server running in development mode | {"action":"server_startup","meta":{"port":4003,"environment":"development"}}
+INFO::2026-02-09T12:23:09.649Z: 🚀 Server ready at http://localhost:4003/api/v1 | {}
+INFO::2026-02-09T12:23:09.650Z: 📚 API Documentation available at http://localhost:4003/api-docs | {}
+INFO::2026-02-09T12:23:28.625Z: SIGTERM received. Starting graceful shutdown... | {"action":"graceful_shutdown"}
+INFO::2026-02-09T12:23:28.631Z: HTTP server closed | {"action":"graceful_shutdown"}
+INFO::2026-02-09T12:23:28.641Z: Database connection closed | {"action":"graceful_shutdown"}
+INFO::2026-02-09T12:23:32.024Z: Prisma Info: Starting a postgresql pool with 5 connections. | {"action":"prisma_info"}
+INFO::2026-02-09T12:23:32.064Z: Database connection established successfully | {"action":"server_startup"}
+INFO::2026-02-09T12:23:32.087Z: Log cleanup job initialized | {"action":"server_startup"}
+INFO::2026-02-09T12:23:32.095Z: Server running in development mode | {"action":"server_startup","meta":{"port":4003,"environment":"development"}}
+INFO::2026-02-09T12:23:32.095Z: 🚀 Server ready at http://localhost:4003/api/v1 | {}
+INFO::2026-02-09T12:23:32.096Z: 📚 API Documentation available at http://localhost:4003/api-docs | {}
+INFO::2026-02-09T12:23:58.303Z: SIGTERM received. Starting graceful shutdown... | {"action":"graceful_shutdown"}
+INFO::2026-02-09T12:23:58.306Z: HTTP server closed | {"action":"graceful_shutdown"}
+INFO::2026-02-09T12:23:58.321Z: Database connection closed | {"action":"graceful_shutdown"}
+INFO::2026-02-09T12:24:01.907Z: Prisma Info: Starting a postgresql pool with 5 connections. | {"action":"prisma_info"}
+INFO::2026-02-09T12:24:01.992Z: Database connection established successfully | {"action":"server_startup"}
+INFO::2026-02-09T12:24:02.045Z: Log cleanup job initialized | {"action":"server_startup"}
+INFO::2026-02-09T12:24:02.064Z: Server running in development mode | {"action":"server_startup","meta":{"port":4003,"environment":"development"}}
+INFO::2026-02-09T12:24:02.064Z: 🚀 Server ready at http://localhost:4003/api/v1 | {}
+INFO::2026-02-09T12:24:02.065Z: 📚 API Documentation available at http://localhost:4003/api-docs | {}
+INFO::2026-02-09T12:26:52.974Z: SIGTERM received. Starting graceful shutdown... | {"action":"graceful_shutdown"}
+INFO::2026-02-09T12:26:56.496Z: Prisma Info: Starting a postgresql pool with 5 connections. | {"action":"prisma_info"}
+INFO::2026-02-09T12:26:56.533Z: Database connection established successfully | {"action":"server_startup"}
+INFO::2026-02-09T12:26:56.568Z: Log cleanup job initialized | {"action":"server_startup"}
+INFO::2026-02-09T12:26:56.575Z: Server running in development mode | {"action":"server_startup","meta":{"port":4003,"environment":"development"}}
+INFO::2026-02-09T12:26:56.576Z: 🚀 Server ready at http://localhost:4003/api/v1 | {}
+INFO::2026-02-09T12:26:56.576Z: 📚 API Documentation available at http://localhost:4003/api-docs | {}
+ERROR::2026-02-09T12:29:35.395Z: Error: Access token is required | {"action":"error_handler"}
+ERROR::2026-02-09T12:29:35.397Z: Access token is required | {}
+INFO::2026-02-09T12:29:55.912Z: User logged in: dushimec515@gmail.com | {}
+INFO::2026-02-09T12:29:55.914Z: Login successful | {}
+ERROR::2026-02-09T12:30:45.431Z: Failed to verify access token invalid signature | {}
+ERROR::2026-02-09T12:30:45.438Z: Error: Invalid or expired access token | {"action":"error_handler"}
+ERROR::2026-02-09T12:30:45.443Z: Invalid or expired access token | {}
+INFO::2026-02-09T12:31:14.885Z: User logged in: dushimec515@gmail.com | {}
+INFO::2026-02-09T12:31:14.885Z: Login successful | {}
+ERROR::2026-02-09T12:31:58.072Z: Failed to verify access token invalid signature | {}
+ERROR::2026-02-09T12:31:58.075Z: Error: Invalid or expired access token | {"action":"error_handler"}
+ERROR::2026-02-09T12:31:58.075Z: Invalid or expired access token | {}
+ERROR::2026-02-09T12:32:19.095Z: Failed to verify access token invalid signature | {}
+ERROR::2026-02-09T12:32:19.107Z: Error: Invalid or expired access token | {"action":"error_handler"}
+ERROR::2026-02-09T12:32:19.107Z: Invalid or expired access token | {}
+INFO::2026-02-09T16:32:39.350Z: Prisma Info: Starting a postgresql pool with 5 connections. | {"action":"prisma_info"}
+INFO::2026-02-09T16:32:40.215Z: Database connection established successfully | {"action":"server_startup"}
+INFO::2026-02-09T16:32:40.263Z: Log cleanup job initialized | {"action":"server_startup"}
+INFO::2026-02-09T16:32:40.273Z: Server running in development mode | {"action":"server_startup","meta":{"port":4003,"environment":"development"}}
+INFO::2026-02-09T16:32:40.274Z: 🚀 Server ready at http://localhost:4003/api/v1 | {}
+INFO::2026-02-09T16:32:40.275Z: 📚 API Documentation available at http://localhost:4003/api-docs | {}
+INFO::2026-02-10T11:20:31.183Z: Prisma Info: Starting a postgresql pool with 5 connections. | {"action":"prisma_info"}
+INFO::2026-02-10T11:20:33.478Z: Database connection established successfully | {"action":"server_startup"}
+INFO::2026-02-10T11:20:33.675Z: Log cleanup job initialized | {"action":"server_startup"}
+INFO::2026-02-10T11:20:33.859Z: Server running in development mode | {"action":"server_startup","meta":{"port":4003,"environment":"development"}}
+INFO::2026-02-10T11:20:33.861Z: 🚀 Server ready at http://localhost:4003/api/v1 | {}
+INFO::2026-02-10T11:20:33.861Z: 📚 API Documentation available at http://localhost:4003/api-docs | {}
+INFO::2026-02-10T11:22:32.461Z: SIGTERM received. Starting graceful shutdown... | {"action":"graceful_shutdown"}
+INFO::2026-02-10T11:23:03.673Z: Prisma Info: Starting a postgresql pool with 5 connections. | {"action":"prisma_info"}
+INFO::2026-02-10T11:23:04.518Z: Database connection established successfully | {"action":"server_startup"}
+INFO::2026-02-10T11:23:04.578Z: Log cleanup job initialized | {"action":"server_startup"}
+INFO::2026-02-10T11:23:04.587Z: Server running in development mode | {"action":"server_startup","meta":{"port":4003,"environment":"development"}}
+INFO::2026-02-10T11:23:04.587Z: 🚀 Server ready at http://localhost:4003/api/v1 | {}
+INFO::2026-02-10T11:23:04.588Z: 📚 API Documentation available at http://localhost:4003/api-docs | {}
+INFO::2026-02-10T11:23:27.880Z: SIGTERM received. Starting graceful shutdown... | {"action":"graceful_shutdown"}
+INFO::2026-02-10T11:23:27.899Z: HTTP server closed | {"action":"graceful_shutdown"}
+INFO::2026-02-10T11:23:28.317Z: Database connection closed | {"action":"graceful_shutdown"}
+INFO::2026-02-10T11:23:42.527Z: Prisma Info: Starting a postgresql pool with 5 connections. | {"action":"prisma_info"}
+INFO::2026-02-10T11:23:42.787Z: Database connection established successfully | {"action":"server_startup"}
+INFO::2026-02-10T11:23:42.933Z: Log cleanup job initialized | {"action":"server_startup"}
+INFO::2026-02-10T11:23:42.941Z: Server running in development mode | {"action":"server_startup","meta":{"port":4003,"environment":"development"}}
+INFO::2026-02-10T11:23:42.941Z: 🚀 Server ready at http://localhost:4003/api/v1 | {}
+INFO::2026-02-10T11:23:42.944Z: 📚 API Documentation available at http://localhost:4003/api-docs | {}
+INFO::2026-02-10T11:23:59.001Z: SIGTERM received. Starting graceful shutdown... | {"action":"graceful_shutdown"}
+INFO::2026-02-10T11:23:59.006Z: HTTP server closed | {"action":"graceful_shutdown"}
+INFO::2026-02-10T11:23:59.020Z: Database connection closed | {"action":"graceful_shutdown"}
+INFO::2026-02-10T11:24:15.819Z: Prisma Info: Starting a postgresql pool with 5 connections. | {"action":"prisma_info"}
+INFO::2026-02-10T11:24:15.972Z: Database connection established successfully | {"action":"server_startup"}
+INFO::2026-02-10T11:24:16.047Z: Log cleanup job initialized | {"action":"server_startup"}
+INFO::2026-02-10T11:24:16.057Z: Server running in development mode | {"action":"server_startup","meta":{"port":4003,"environment":"development"}}
+INFO::2026-02-10T11:24:16.058Z: 🚀 Server ready at http://localhost:4003/api/v1 | {}
+INFO::2026-02-10T11:24:16.058Z: 📚 API Documentation available at http://localhost:4003/api-docs | {}
+INFO::2026-02-10T11:27:10.982Z: SIGTERM received. Starting graceful shutdown... | {"action":"graceful_shutdown"}
+INFO::2026-02-10T11:29:00.671Z: Prisma Info: Starting a postgresql pool with 5 connections. | {"action":"prisma_info"}
+INFO::2026-02-10T11:29:01.417Z: Database connection established successfully | {"action":"server_startup"}
+INFO::2026-02-10T11:29:01.447Z: Log cleanup job initialized | {"action":"server_startup"}
+INFO::2026-02-10T11:29:01.455Z: Server running in development mode | {"action":"server_startup","meta":{"port":4003,"environment":"development"}}
+INFO::2026-02-10T11:29:01.456Z: 🚀 Server ready at http://localhost:4003/api/v1 | {}
+INFO::2026-02-10T11:29:01.459Z: 📚 API Documentation available at http://localhost:4003/api-docs | {}
+INFO::2026-02-10T11:32:31.927Z: SIGTERM received. Starting graceful shutdown... | {"action":"graceful_shutdown"}
+INFO::2026-02-10T11:32:48.292Z: Prisma Info: Starting a postgresql pool with 5 connections. | {"action":"prisma_info"}
+INFO::2026-02-10T11:32:48.821Z: Database connection established successfully | {"action":"server_startup"}
+INFO::2026-02-10T11:32:48.896Z: Log cleanup job initialized | {"action":"server_startup"}
+INFO::2026-02-10T11:32:48.909Z: Server running in development mode | {"action":"server_startup","meta":{"port":4003,"environment":"development"}}
+INFO::2026-02-10T11:32:48.911Z: 🚀 Server ready at http://localhost:4003/api/v1 | {}
+INFO::2026-02-10T11:32:48.912Z: 📚 API Documentation available at http://localhost:4003/api-docs | {}
+INFO::2026-02-10T11:34:39.296Z: SIGTERM received. Starting graceful shutdown... | {"action":"graceful_shutdown"}
+INFO::2026-02-10T11:34:50.972Z: Prisma Info: Starting a postgresql pool with 5 connections. | {"action":"prisma_info"}
+INFO::2026-02-10T11:34:51.115Z: Database connection established successfully | {"action":"server_startup"}
+INFO::2026-02-10T11:34:51.169Z: Log cleanup job initialized | {"action":"server_startup"}
+INFO::2026-02-10T11:34:51.176Z: Server running in development mode | {"action":"server_startup","meta":{"port":4003,"environment":"development"}}
+INFO::2026-02-10T11:34:51.177Z: 🚀 Server ready at http://localhost:4003/api/v1 | {}
+INFO::2026-02-10T11:34:51.177Z: 📚 API Documentation available at http://localhost:4003/api-docs | {}
+INFO::2026-02-10T11:36:27.114Z: SIGTERM received. Starting graceful shutdown... | {"action":"graceful_shutdown"}
+INFO::2026-02-10T11:36:57.951Z: Prisma Info: Starting a postgresql pool with 5 connections. | {"action":"prisma_info"}
+INFO::2026-02-10T11:36:58.312Z: Database connection established successfully | {"action":"server_startup"}
+INFO::2026-02-10T11:36:58.432Z: Log cleanup job initialized | {"action":"server_startup"}
+INFO::2026-02-10T11:36:58.466Z: Server running in development mode | {"action":"server_startup","meta":{"port":4003,"environment":"development"}}
+INFO::2026-02-10T11:36:58.471Z: 🚀 Server ready at http://localhost:4003/api/v1 | {}
+INFO::2026-02-10T11:36:58.472Z: 📚 API Documentation available at http://localhost:4003/api-docs | {}
+INFO::2026-02-10T12:07:12.340Z: Prisma Info: Starting a postgresql pool with 5 connections. | {"action":"prisma_info"}
+INFO::2026-02-10T12:07:14.018Z: Database connection established successfully | {"action":"server_startup"}
+INFO::2026-02-10T12:07:14.107Z: Log cleanup job initialized | {"action":"server_startup"}
+INFO::2026-02-10T12:07:14.128Z: Server running in development mode | {"action":"server_startup","meta":{"port":4003,"environment":"development"}}
+INFO::2026-02-10T12:07:14.129Z: 🚀 Server ready at http://localhost:4003/api/v1 | {}
+INFO::2026-02-10T12:07:14.129Z: 📚 API Documentation available at http://localhost:4003/api-docs | {}
+ERROR::2026-02-10T12:08:09.765Z: Error: Route GET /favicon.ico not found | {"action":"error_handler"}
+ERROR::2026-02-10T12:08:11.326Z: Route GET /favicon.ico not found | {}
+INFO::2026-02-10T12:09:34.656Z: User logged in: dushimec515@gmail.com | {}
+INFO::2026-02-10T12:09:34.749Z: Login successful | {}
+INFO::2026-02-10T12:10:54.021Z: Profile retrieved | {}
+INFO::2026-02-10T12:11:32.528Z: User logged in: dushimec515@gmail.com | {}
+INFO::2026-02-10T12:11:32.530Z: Login successful | {}
+INFO::2026-02-10T12:12:17.195Z: Token refreshed | {}
+ERROR::2026-02-10T12:13:12.219Z: Failed to send password reset email to dushimec515@gmail.com: getaddrinfo EAI_AGAIN smtp.example.com | {}
+INFO::2026-02-10T12:13:12.220Z: Password reset email sent to: dushimec515@gmail.com | {}
+INFO::2026-02-10T12:13:12.221Z: If an account exists, a reset link will be sent | {}

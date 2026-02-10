@@ -1,0 +1,375 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+  engineType = "library"
+}
+
+/// ======================
+/// ENUMS
+/// ======================
+enum UserRole {
+  ADMIN
+  SELLER
+  CUSTOMER
+}
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+  DELETED
+}
+
+enum SellerBusinessType {
+  INDIVIDUAL
+  COMPANY
+}
+
+enum VerificationStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+}
+
+enum ShopStatus {
+  PENDING
+  ACTIVE
+  SUSPENDED
+}
+
+enum ProductStatus {
+  DRAFT
+  ACTIVE
+  OUT_OF_STOCK
+}
+
+enum ProductVisibility {
+  PUBLIC
+  HIDDEN
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  INACTIVE
+  EXPIRED
+}
+
+enum AdStatus {
+  ACTIVE
+  INACTIVE
+  EXPIRED
+}
+
+/// ======================
+/// USERS
+/// ======================
+model User {
+  id            String     @id @default(uuid())
+  firstName     String
+  lastName      String
+  email         String     @unique
+  phone         String     @unique
+  passwordHash  String?
+  avatarUrl     String?
+  googleId      String?    @unique
+  role          UserRole
+  status        UserStatus @default(ACTIVE)
+  emailVerified Boolean    @default(false)
+  phoneVerified Boolean    @default(false)
+  lastLoginAt   DateTime?
+  resetPasswordToken   String?
+  resetPasswordExpires DateTime?
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  seller        Seller?
+  orders        Order[]
+  reviews       Review[]
+  messages      Message[]
+  notifications Notification[]
+  auditLogs     AuditLog[]
+  addresses     Address[]
+}
+
+/// ======================
+/// SELLERS & SHOPS
+/// ======================
+model Seller {
+  id                 String             @id @default(uuid())
+  userId             String             @unique
+  businessName       String
+  businessType       SellerBusinessType
+  businessAddress    String?
+  verificationStatus VerificationStatus
+  commissionRate     Float
+  createdAt          DateTime           @default(now())
+
+  user          User                 @relation(fields: [userId], references: [id])
+  shops         Shop[]
+  subscriptions SellerSubscription[]
+  ads           SponsoredAd[]
+  sellerPayouts SellerPayout[]
+}
+
+model Shop {
+  id          String     @id @default(uuid())
+  sellerId    String
+  name        String
+  slug        String     @unique
+  logoUrl     String?
+  bannerUrl   String?
+  description String?
+  phone       String?
+  email       String?
+  address     String?
+  rating      Float?
+  status      ShopStatus
+  createdAt   DateTime   @default(now())
+
+  seller   Seller        @relation(fields: [sellerId], references: [id])
+  products Product[]
+  ads      SponsoredAd[]
+}
+
+/// ======================
+/// PRODUCT CATEGORIES
+/// ======================
+model Category {
+  id        String   @id @default(uuid())
+  name      String
+  slug      String   @unique
+  status    Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  products Product[]
+}
+
+/// ======================
+/// PRODUCTS & VARIANTS
+/// ======================
+model Product {
+  id          String            @id @default(uuid())
+  shopId      String
+  categoryId  String
+  name        String
+  description String?
+  basePrice   Float
+  discount    Float?
+  status      ProductStatus
+  visibility  ProductVisibility
+  createdAt   DateTime          @default(now())
+
+  shop       Shop             @relation(fields: [shopId], references: [id])
+  category   Category         @relation(fields: [categoryId], references: [id])
+  variants   ProductVariant[]
+  images     ProductImage[]
+  inventory  Inventory[]
+  reviews    Review[]
+  orderItems OrderItem[]
+  ads        SponsoredAd[]
+}
+
+model ProductVariant {
+  id         String @id @default(uuid())
+  productId  String
+  sku        String @unique
+  price      Float
+  stock      Int
+  attributes Json? // optional variant details like {"Size":"M","Color":"Red"}
+
+  product   Product     @relation(fields: [productId], references: [id])
+  inventory Inventory[]
+}
+
+model ProductImage {
+  id        String  @id @default(uuid())
+  productId String
+  imageUrl  String
+  isPrimary Boolean @default(false)
+
+  product Product @relation(fields: [productId], references: [id])
+}
+
+model Inventory {
+  id               String @id @default(uuid())
+  productVariantId String
+  quantity         Int
+  lowStockAlert    Int?
+
+  productVariant ProductVariant @relation(fields: [productVariantId], references: [id])
+  product        Product?       @relation(fields: [productId], references: [id])
+  productId      String?
+}
+
+/// ======================
+/// CUSTOMER ADDRESSES
+/// ======================
+model Address {
+  id        String  @id @default(uuid())
+  userId    String
+  address   String
+  city      String
+  street    String
+  isDefault Boolean @default(false)
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Order {
+  id            String        @id @default(uuid())
+  userId        String
+  status        OrderStatus
+  total         Float
+  paymentStatus PaymentStatus
+  createdAt     DateTime      @default(now())
+
+  user     User        @relation(fields: [userId], references: [id])
+  items    OrderItem[]
+  payments Payment[]
+}
+
+model OrderItem {
+  id        String @id @default(uuid())
+  orderId   String
+  productId String
+  quantity  Int
+  price     Float
+
+  order   Order   @relation(fields: [orderId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+}
+
+model Payment {
+  id        String        @id @default(uuid())
+  orderId   String
+  method    String
+  provider  String
+  amount    Float
+  status    PaymentStatus
+  createdAt DateTime      @default(now())
+
+  order Order @relation(fields: [orderId], references: [id])
+}
+
+model SellerPayout {
+  id        String   @id @default(uuid())
+  sellerId  String
+  amount    Float
+  period    String
+  status    String
+  createdAt DateTime @default(now())
+
+  seller Seller @relation(fields: [sellerId], references: [id])
+}
+
+model Review {
+  id        String   @id @default(uuid())
+  userId    String
+  productId String
+  rating    Int
+  comment   String?
+  createdAt DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+}
+
+model SellerSubscription {
+  id        String             @id @default(uuid())
+  sellerId  String
+  plan      String
+  price     Float
+  duration  Int // days
+  status    SubscriptionStatus
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+
+  seller Seller        @relation(fields: [sellerId], references: [id])
+  ads    SponsoredAd[]
+}
+
+model SponsoredAd {
+  id        String   @id @default(uuid())
+  shopId    String
+  productId String?
+  placement String
+  startDate DateTime
+  endDate   DateTime
+  status    AdStatus
+
+  shop                 Shop                @relation(fields: [shopId], references: [id])
+  product              Product?            @relation(fields: [productId], references: [id])
+  seller               Seller?             @relation(fields: [sellerId], references: [id])
+  sellerId             String?
+  sellerSubscription   SellerSubscription? @relation(fields: [sellerSubscriptionId], references: [id])
+  sellerSubscriptionId String?
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  type      String
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Message {
+  id        String   @id @default(uuid())
+  userId    String
+  content   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Setting {
+  key         String  @id
+  value       String
+  description String?
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  userId    String?
+  action    String
+  ip        String?
+  createdAt DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id])
+}
+
+/// ======================
+/// EMAIL VERIFICATION OTP
+/// ======================
+model EmailVerification {
+  id        String   @id @default(uuid())
+  email     String
+  code      String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([email])
+  @@index([code])
+}
