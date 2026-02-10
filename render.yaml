@@ -1,0 +1,46 @@
+services:
+  - type: web
+    name: e-curuza-api
+    env: node
+    buildCommand: yarn install && yarn build
+    startCommand: yarn start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: e-curuza-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: "7d"
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_EXPIRES_IN
+        value: "30d"
+      - key: EMAIL_HOST
+        value: smtp.example.com
+      - key: EMAIL_PORT
+        value: "587"
+      - key: EMAIL_USER
+        value: your-email@example.com
+      - key: EMAIL_PASS
+        value: your-email-password
+      - key: R2_ACCOUNT_ID
+        value: your-cloudflare-account-id
+      - key: R2_ACCESS_KEY_ID
+        value: your-r2-access-key
+      - key: R2_SECRET_ACCESS_KEY
+        value: your-r2-secret-key
+      - key: R2_BUCKET_NAME
+        value: e-curuza-bucket
+      - key: R2_PUBLIC_URL
+        value: https://your-r2-public-url.com
+    healthCheckPath: /health
+
+databases:
+  - name: e-curuza-db
+    plan: free
+    databaseName: e_curuza_db
+    user: e_curuza_user
