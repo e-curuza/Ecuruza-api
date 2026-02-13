@@ -85,6 +85,8 @@
  *         description: Login successful
  *       401:
  *         description: Invalid credentials or Google-only account
+ *       403:
+ *         description: Email not verified
  */
 
 /**
@@ -237,7 +239,7 @@
  *       - bearerAuth: []
  *     requestBody:
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
  *             type: object
  *             properties:
@@ -250,9 +252,16 @@
  *               phone:
  *                 type: string
  *                 example: "+250789356233"
+ *               bio:
+ *                 type: string
+ *                 example: "Software developer"
+ *               avatar:
+ *                 type: string
+ *                 format: binary
+ *                 description: Profile picture (optional)
  *     responses:
  *       200:
- *         description: Profile updated (avatar regenerates if name changed)
+ *         description: Profile updated successfully
  */
 
 /**
@@ -286,6 +295,65 @@
  *         description: Google-only accounts cannot change password
  *       401:
  *         description: Current password incorrect
+ */
+
+/**
+ * @swagger
+ * /api/v1/auth/verify-email:
+ *   post:
+ *     summary: Verify email with OTP code
+ *     tags: [Authentication]
+ *     security: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - code
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 example: dushimec515@gmail.com
+ *               code:
+ *                 type: string
+ *                 description: 6-digit OTP code
+ *                 example: "123456"
+ *     responses:
+ *       200:
+ *         description: Email verified successfully
+ *       400:
+ *         description: Invalid or expired verification code
+ */
+
+/**
+ * @swagger
+ * /api/v1/auth/resend-verification:
+ *   post:
+ *     summary: Resend email verification code
+ *     tags: [Authentication]
+ *     security: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 example: dushimec515@gmail.com
+ *     responses:
+ *       200:
+ *         description: Verification code sent successfully
+ *       400:
+ *         description: Email already verified
  */
 
 /**

@@ -34,6 +34,20 @@ enum VerificationStatus {
   REJECTED
 }
 
+enum ApplicationStatus {
+  PENDING
+  UNDER_REVIEW
+  APPROVED
+  REJECTED
+}
+
+enum SellerApplicationStatus {
+  PENDING
+  UNDER_REVIEW
+  APPROVED
+  REJECTED
+}
+
 enum ShopStatus {
   PENDING
   ACTIVE
@@ -90,6 +104,7 @@ model User {
   passwordHash  String?
   avatarUrl     String?
   googleId      String?    @unique
+  bio           String?
   role          UserRole
   status        UserStatus @default(ACTIVE)
   emailVerified Boolean    @default(false)
@@ -97,12 +112,16 @@ model User {
   lastLoginAt   DateTime?
   resetPasswordToken   String?
   resetPasswordExpires DateTime?
+  emailVerificationCode   String?
+  emailVerificationExpires DateTime?
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
 
   seller        Seller?
+  sellerApplications SellerApplication[]
   orders        Order[]
   reviews       Review[]
+  shopReviews   ShopReview[]
   messages      Message[]
   notifications Notification[]
   auditLogs     AuditLog[]
@@ -122,31 +141,71 @@ model Seller {
   commissionRate     Float
   createdAt          DateTime           @default(now())
 
-  user          User                 @relation(fields: [userId], references: [id])
+  user User                 @relation(fields: [userId], references: [id])
+  sellerApplications SellerApplication[]
   shops         Shop[]
   subscriptions SellerSubscription[]
   ads           SponsoredAd[]
   sellerPayouts SellerPayout[]
 }
 
+model SellerApplication {
+  id              String                @id @default(uuid())
+  userId          String
+  sellerId        String?
+  businessName    String
+  businessType    SellerBusinessType
+  taxId           String?
+  country         String?
+  city            String?
+  businessAddress String?
+  description     String?
+  phone           String?
+  email           String?
+  website         String?
+  idCardUrl       String?
+  businessCertUrl String?
+  status          SellerApplicationStatus @default(PENDING)
+  adminMessage    String?
+  reviewedBy      String?
+  reviewedAt      DateTime?
+  createdAt       DateTime              @default(now())
+  updatedAt       DateTime              @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+  seller Seller? @relation(fields: [sellerId], references: [id])
+}
+
 model Shop {
-  id          String     @id @default(uuid())
-  sellerId    String
-  name        String
-  slug        String     @unique
-  logoUrl     String?
-  bannerUrl   String?
-  description String?
-  phone       String?
-  email       String?
-  address     String?
-  rating      Float?
-  status      ShopStatus
-  createdAt   DateTime   @default(now())
+  id             String     @id @default(uuid())
+  sellerId       String
+  name           String
+  slug           String     @unique
+  logoUrl        String?
+  bannerUrl      String?
+  description    String?
+  phone          String?
+  email          String?
+  address        String?
+  returnPolicy   String?
+  shippingPolicy String?
+  facebookUrl    String?
+  twitterUrl     String?
+  instagramUrl   String?
+  linkedinUrl    String?
+  youtubeUrl     String?
+  tiktokUrl      String?
+  rating         Float?
+  ratingCount    Int        @default(0)
+  viewCount      Int        @default(0)
+  status         ShopStatus
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
 
   seller   Seller        @relation(fields: [sellerId], references: [id])
   products Product[]
   ads      SponsoredAd[]
+  reviews  ShopReview[]
 }
 
 /// ======================
@@ -292,6 +351,18 @@ model Review {
   product Product @relation(fields: [productId], references: [id])
 }
 
+model ShopReview {
+  id        String   @id @default(uuid())
+  userId    String
+  shopId    String
+  rating    Int
+  comment   String?
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+  shop Shop @relation(fields: [shopId], references: [id], onDelete: Cascade)
+}
+
 model SellerSubscription {
   id        String             @id @default(uuid())
   sellerId  String
@@ -360,16 +431,4 @@ model AuditLog {
   user User? @relation(fields: [userId], references: [id])
 }
 
-/// ======================
-/// EMAIL VERIFICATION OTP
-/// ======================
-model EmailVerification {
-  id        String   @id @default(uuid())
-  email     String
-  code      String
-  expiresAt DateTime
-  createdAt DateTime @default(now())
 
-  @@index([email])
-  @@index([code])
-}

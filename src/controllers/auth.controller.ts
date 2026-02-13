@@ -5,7 +5,7 @@ import crypto from 'crypto';
 import { logger } from '../utils/logger.js';
 import { ApiResponseBuilder, type ApiResponse } from '../utils/ApiResponse.js';
 import { hashPassword, comparePassword, generateTokenPair, verifyRefreshToken } from '../utils/auth.utils.js';
-import { generateAndUploadAvatar } from '../utils/avatar.generate.js';
+import { generateAndUploadAvatar, uploadAvatarToR2 } from '../utils/avatar.generate.js';
 import {
   generateResetToken,
   hashResetToken,
@@ -16,7 +16,7 @@ import {
 } from '../utils/password.reset.js';
 import { createOrUpdateOTP, verifyOTP, deleteOTP } from '../utils/otp.utils.js';
 import { sendVerificationEmail, sendPasswordResetEmail, sendPasswordChangeConfirmationEmail } from '../services/email.service.js';
-import type { AuthResponse, UserResponse, RegisterRequest, LoginRequest, AuthPayload } from '../utils/type.js';
+import type { AuthResponse, UserResponse, RegisterRequest, LoginRequest, AuthPayload, CustomerRegisterRequest, SellerRegisterRequest } from '../utils/type.js';
 
 const prisma = new PrismaClient();
 
@@ -62,6 +62,93 @@ export async function register(
       logger.warn('Failed to generate avatar:', avatarError);
     }
 
+    const otp = await createOrUpdateOTP(email);
+    await sendVerificationEmail(email, otp.code);
+
+    const authPayload: AuthPayload = {
+      userId: user.id,
+      email: user.email,
+      role: user.role,
+    };
+
+    const { accessToken, refreshToken } = generateTokenPair(authPayload);
+
+    const userResponse: UserResponse = {
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      phone: user.phone,
+      ...(avatarUrl && { avatarUrl }),
+      ...((user as any).bio && { bio: (user as any).bio }),
+      role: user.role,
+      status: user.status,
+      emailVerified: user.emailVerified,
+      phoneVerified: user.phoneVerified,
+      createdAt: user.createdAt,
+    };
+
+    const authResponse: AuthResponse = {
+      user: userResponse,
+      accessToken,
+      refreshToken,
+    };
+
+    logger.info(`User registered: ${user.email}`);
+    res.status(201).json(ApiResponseBuilder.created('User registered successfully', authResponse));
+  } catch (error) {
+    next(error);
+  }
+}
+
+// =====================
+// Customer Registration
+// =====================
+export async function registerCustomer(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
+  try {
+    const { firstName, lastName, email, phone, password } = req.body as CustomerRegisterRequest;
+
+    const existingUser = await prisma.user.findFirst({
+      where: {
+        OR: [{ email }, { phone }],
+      },
+    });
+
+    if (existingUser) {
+      throw createError(409, 'User with this email or phone already exists');
+    }
+
+    const passwordHash = await hashPassword(password);
+
+    const user = await prisma.user.create({
+      data: {
+        firstName,
+        lastName,
+        email,
+        phone,
+        passwordHash,
+        role: 'CUSTOMER',
+      },
+    });
+
+    let avatarUrl: string | undefined;
+    try {
+      avatarUrl = await generateAndUploadAvatar(firstName, lastName, user.id);
+      await prisma.user.update({
+        where: { id: user.id },
+        data: { avatarUrl },
+      });
+    } catch (avatarError) {
+      logger.warn('Failed to generate avatar:', avatarError);
+    }
+
+    const otp = await createOrUpdateOTP(email);
+    await sendVerificationEmail(email, otp.code);
+
     const authPayload: AuthPayload = {
       userId: user.id,
       email: user.email,
@@ -90,8 +177,108 @@ export async function register(
       refreshToken,
     };
 
-    logger.info(`User registered: ${user.email}`);
-    res.status(201).json(ApiResponseBuilder.created('User registered successfully', authResponse));
+    logger.info(`Customer registered: ${user.email}`);
+    res.status(201).json(ApiResponseBuilder.created('Customer registered successfully', authResponse));
+  } catch (error) {
+    next(error);
+  }
+}
+
+// =====================
+// Seller Registration
+// =====================
+export async function registerSeller(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
+  try {
+    const { fullName, businessName, email, phone, password } = req.body as SellerRegisterRequest;
+
+    // Split full name into first and last name
+    const nameParts = fullName.trim().split(/\s+/);
+    const firstName = nameParts[0] || fullName;
+    const lastName = nameParts.slice(1).join(' ') || '';
+
+    const existingUser = await prisma.user.findFirst({
+      where: {
+        OR: [{ email }, { phone }],
+      },
+    });
+
+    if (existingUser) {
+      throw createError(409, 'User with this email or phone already exists');
+    }
+
+    const passwordHash = await hashPassword(password);
+
+    // Create user as SELLER role
+    const user = await prisma.user.create({
+      data: {
+        firstName,
+        lastName,
+        email,
+        phone,
+        passwordHash,
+        role: 'SELLER',
+      },
+    });
+
+    let avatarUrl: string | undefined;
+    try {
+      avatarUrl = await generateAndUploadAvatar(firstName, lastName, user.id);
+      await prisma.user.update({
+        where: { id: user.id },
+        data: { avatarUrl },
+      });
+    } catch (avatarError) {
+      logger.warn('Failed to generate avatar:', avatarError);
+    }
+
+    // Create seller profile with business name
+    await prisma.seller.create({
+      data: {
+        userId: user.id,
+        businessName,
+        businessType: 'INDIVIDUAL',
+        verificationStatus: 'PENDING',
+        commissionRate: 0,
+      },
+    });
+
+    const otp = await createOrUpdateOTP(email);
+    await sendVerificationEmail(email, otp.code);
+
+    const authPayload: AuthPayload = {
+      userId: user.id,
+      email: user.email,
+      role: user.role,
+    };
+
+    const { accessToken, refreshToken } = generateTokenPair(authPayload);
+
+    const userResponse: UserResponse = {
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      phone: user.phone,
+      ...(avatarUrl && { avatarUrl }),
+      role: user.role,
+      status: user.status,
+      emailVerified: user.emailVerified,
+      phoneVerified: user.phoneVerified,
+      createdAt: user.createdAt,
+    };
+
+    const authResponse: AuthResponse = {
+      user: userResponse,
+      accessToken,
+      refreshToken,
+    };
+
+    logger.info(`Seller registered: ${user.email} with business: ${businessName}`);
+    res.status(201).json(ApiResponseBuilder.created('Seller registered successfully', authResponse));
   } catch (error) {
     next(error);
   }
@@ -123,6 +310,10 @@ export async function login(
       throw createError(401, 'Invalid email or password');
     }
 
+    if (!user.emailVerified) {
+      throw createError(403, 'Please verify your email before logging in. Check your email for the verification code.');
+    }
+
     if (user.status !== 'ACTIVE') {
       throw createError(403, 'Account is not active');
     }
@@ -147,6 +338,7 @@ export async function login(
       email: user.email,
       phone: user.phone,
       ...(user.avatarUrl && { avatarUrl: user.avatarUrl }),
+      ...((user as any).bio && { bio: (user as any).bio }),
       role: user.role,
       status: user.status,
       emailVerified: user.emailVerified,
@@ -226,6 +418,7 @@ export async function getProfile(
       email: dbUser.email,
       phone: dbUser.phone,
       ...((dbUser as any).avatarUrl && { avatarUrl: (dbUser as any).avatarUrl }),
+      ...((dbUser as any).bio && { bio: (dbUser as any).bio }),
       role: dbUser.role,
       status: dbUser.status,
       emailVerified: dbUser.emailVerified,
@@ -246,15 +439,20 @@ export async function updateProfile(
 ): Promise<void> {
   try {
     const user = (req as any).user;
-    const { firstName, lastName, phone } = req.body;
+    const { firstName, lastName, phone, bio } = req.body;
+    const avatarFile = req.file;
 
     const updateData: any = {};
 
     if (firstName) updateData.firstName = firstName;
     if (lastName) updateData.lastName = lastName;
     if (phone) updateData.phone = phone;
+    if (bio !== undefined) updateData.bio = bio;
 
-    if (firstName || lastName) {
+    if (avatarFile) {
+      const avatarUrl = await uploadAvatarToR2(avatarFile.buffer, avatarFile.originalname, user.userId);
+      updateData.avatarUrl = avatarUrl;
+    } else if (firstName || lastName) {
       const currentUser = await prisma.user.findUnique({
         where: { id: user.userId },
       });
@@ -285,6 +483,7 @@ export async function updateProfile(
       email: updatedUser.email,
       phone: updatedUser.phone,
       ...((updatedUser as any).avatarUrl && { avatarUrl: (updatedUser as any).avatarUrl }),
+      ...((updatedUser as any).bio && { bio: (updatedUser as any).bio }),
       role: updatedUser.role,
       status: updatedUser.status,
       emailVerified: updatedUser.emailVerified,
@@ -517,6 +716,7 @@ export async function googleCallback(
       email: user.email,
       phone: user.phone,
       ...(user.avatarUrl && { avatarUrl: user.avatarUrl }),
+      ...((user as any).bio && { bio: (user as any).bio }),
       role: user.role,
       status: user.status,
       emailVerified: user.emailVerified,
