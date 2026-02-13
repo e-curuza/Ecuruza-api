@@ -74,10 +74,12 @@ export const logger = winston.createLogger({
         })
       ),
     }),
-    new winston.transports.File({
-      filename: logFilePath,
-      level: "info",
-    }),
+    ...(process.env.NODE_ENV === "development" || process.env.NODE_ENV === "local"
+      ? [new winston.transports.File({
+          filename: logFilePath,
+          level: "info",
+        })]
+      : []),
   ],
 });
 

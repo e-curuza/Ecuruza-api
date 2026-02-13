@@ -4,7 +4,7 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export const otpConfig = {
-  expiryMinutes: 2,
+  expiryMinutes: 10,
   length: 6,
 };
 
@@ -23,15 +23,19 @@ export async function createOrUpdateOTP(email: string): Promise<{ code: string; 
   const code = generateOTP();
   const expiresAt = getOTPExpiry();
 
-  await prisma.emailVerification.deleteMany({
+  const user = await prisma.user.findUnique({
     where: { email },
   });
 
-  await prisma.emailVerification.create({
+  if (!user) {
+    throw new Error('User not found');
+  }
+
+  await prisma.user.update({
+    where: { id: user.id },
     data: {
-      email,
-      code,
-      expiresAt,
+      emailVerificationCode: code,
+      emailVerificationExpires: expiresAt,
     },
   });
 
@@ -39,43 +43,70 @@ export async function createOrUpdateOTP(email: string): Promise<{ code: string; 
 }
 
 export async function verifyOTP(email: string, code: string): Promise<boolean> {
-  const verification = await prisma.emailVerification.findFirst({
-    where: {
-      email,
-      code,
-    },
+  const user = await prisma.user.findUnique({
+    where: { email },
   });
 
-  if (!verification) {
+  if (!user) {
     return false;
   }
 
-  if (new Date() > verification.expiresAt) {
-    await prisma.emailVerification.delete({
-      where: { id: verification.id },
+  if (!user.emailVerificationCode || !user.emailVerificationExpires) {
+    return false;
+  }
+
+  // Normalize both codes to ensure consistent comparison
+  const normalizedInputCode = code.trim();
+  const storedCode = user.emailVerificationCode.trim();
+
+  if (normalizedInputCode !== storedCode) {
+    return false;
+  }
+
+  if (new Date() > user.emailVerificationExpires) {
+    
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        emailVerificationCode: null,
+        emailVerificationExpires: null,
+      },
     });
     return false;
   }
-
-  await prisma.emailVerification.delete({
-    where: { id: verification.id },
-  });
 
   return true;
 }
 
 export async function deleteOTP(email: string): Promise<void> {
-  await prisma.emailVerification.deleteMany({
+  const user = await prisma.user.findUnique({
     where: { email },
   });
+
+  if (user) {
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        emailVerificationCode: null,
+        emailVerificationExpires: null,
+      },
+    });
+  }
 }
 
 export async function cleanupExpiredOTPs(): Promise<number> {
-  const result = await prisma.emailVerification.deleteMany({
+  const result = await prisma.user.updateMany({
     where: {
-      expiresAt: {
+      emailVerificationExpires: {
         lt: new Date(),
       },
+      emailVerificationCode: {
+        not: null,
+      },
+    },
+    data: {
+      emailVerificationCode: null,
+      emailVerificationExpires: null,
     },
   });
   return result.count;

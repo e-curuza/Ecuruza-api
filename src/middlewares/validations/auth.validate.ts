@@ -134,10 +134,13 @@ export const verifyEmailValidation = [
     .normalizeEmail(),
   
   body('code')
+    .trim()
     .notEmpty()
     .withMessage('Verification code is required')
     .isLength({ min: 6, max: 6 })
-    .withMessage('Verification code must be 6 digits'),
+    .withMessage('Verification code must be 6 digits')
+    .isNumeric()
+    .withMessage('Verification code must be numeric'),
 ];
 
 export const resendVerificationValidation = [
@@ -192,6 +195,110 @@ export const registerWithVerificationValidation = [
     .optional()
     .isIn(['CUSTOMER', 'SELLER', 'ADMIN'])
     .withMessage('Invalid role'),
+];
+
+// =====================
+// Customer Registration
+// =====================
+export const customerRegisterValidation = [
+  body('firstName')
+    .trim()
+    .notEmpty()
+    .withMessage('First name is required')
+    .isLength({ min: 2, max: 50 })
+    .withMessage('First name must be between 2 and 50 characters'),
+  
+  body('lastName')
+    .trim()
+    .notEmpty()
+    .withMessage('Last name is required')
+    .isLength({ min: 2, max: 50 })
+    .withMessage('Last name must be between 2 and 50 characters'),
+  
+  body('email')
+    .trim()
+    .notEmpty()
+    .withMessage('Email is required')
+    .isEmail()
+    .withMessage('Please provide a valid email')
+    .normalizeEmail(),
+  
+  body('phone')
+    .trim()
+    .notEmpty()
+    .withMessage('Phone number is required')
+    .matches(/^\+?[0-9]{10,15}$/)
+    .withMessage('Please provide a valid phone number'),
+  
+  body('password')
+    .notEmpty()
+    .withMessage('Password is required')
+    .isLength({ min: 8 })
+    .withMessage('Password must be at least 8 characters')
+    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/)
+    .withMessage('Password must contain at least one uppercase letter, one lowercase letter, and one number'),
+  
+  body('confirmPassword')
+    .notEmpty()
+    .withMessage('Confirm password is required')
+    .custom((value, { req }) => {
+      if (value !== req.body.password) {
+        throw new Error('Passwords do not match');
+      }
+      return true;
+    }),
+];
+
+// =====================
+// Seller Registration
+// =====================
+export const sellerRegisterValidation = [
+  body('fullName')
+    .trim()
+    .notEmpty()
+    .withMessage('Full name is required')
+    .isLength({ min: 2, max: 100 })
+    .withMessage('Full name must be between 2 and 100 characters'),
+  
+  body('businessName')
+    .trim()
+    .notEmpty()
+    .withMessage('Business name is required')
+    .isLength({ min: 2, max: 100 })
+    .withMessage('Business name must be between 2 and 100 characters'),
+  
+  body('email')
+    .trim()
+    .notEmpty()
+    .withMessage('Email is required')
+    .isEmail()
+    .withMessage('Please provide a valid email')
+    .normalizeEmail(),
+  
+  body('phone')
+    .trim()
+    .notEmpty()
+    .withMessage('Phone number is required')
+    .matches(/^\+?[0-9]{10,15}$/)
+    .withMessage('Please provide a valid phone number'),
+  
+  body('password')
+    .notEmpty()
+    .withMessage('Password is required')
+    .isLength({ min: 8 })
+    .withMessage('Password must be at least 8 characters')
+    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/)
+    .withMessage('Password must contain at least one uppercase letter, one lowercase letter, and one number'),
+  
+  body('confirmPassword')
+    .notEmpty()
+    .withMessage('Confirm password is required')
+    .custom((value, { req }) => {
+      if (value !== req.body.password) {
+        throw new Error('Passwords do not match');
+      }
+      return true;
+    }),
 ];
 
 export function validate(

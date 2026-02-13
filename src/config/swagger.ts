@@ -65,6 +65,7 @@ export const setupSwagger = (app: Express) => {
   app.use("/api-docs/users", swaggerUi.serve, swaggerUi.setup(swaggerSpec, { explorer: true }));
   app.use("/api-docs/shops", swaggerUi.serve, swaggerUi.setup(swaggerSpec, { explorer: true }));
   app.use("/api-docs/products", swaggerUi.serve, swaggerUi.setup(swaggerSpec, { explorer: true }));
+  app.use("/api-docs/sellers", swaggerUi.serve, swaggerUi.setup(swaggerSpec, { explorer: true }));
   app.use("/api-docs/orders", swaggerUi.serve, swaggerUi.setup(swaggerSpec, { explorer: true }));
   app.use("/api-docs/subscriptions", swaggerUi.serve, swaggerUi.setup(swaggerSpec, { explorer: true }));
   app.use("/api-docs/ads", swaggerUi.serve, swaggerUi.setup(swaggerSpec, { explorer: true }));

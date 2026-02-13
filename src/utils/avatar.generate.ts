@@ -1,7 +1,9 @@
 import sharp from 'sharp';
 import { avatarConfig } from '../config/avatar.config.js';
-import { uploadAvatar } from './upload.file.js';
+import { uploadSingleFile, uploadAvatar } from './upload.file.js';
 import crypto from 'crypto';
+import { SUPPORTED_IMAGE_TYPES } from './upload.file.js';
+import { logger } from './logger.js';
 
 interface AvatarOptions {
   firstName: string;
@@ -39,6 +41,31 @@ function generateAvatarFilename(userId: string): string {
   const timestamp = Date.now();
   const randomString = crypto.randomBytes(4).toString('hex');
   return `avatar_${userId}_${timestamp}_${randomString}.jpeg`;
+}
+
+export async function uploadAvatarToR2(
+  buffer: Buffer,
+  originalname: string,
+  userId: string
+): Promise<string> {
+  try {
+    const timestamp = Date.now();
+    const randomString = crypto.randomBytes(4).toString('hex');
+    const extension = originalname.split('.').pop()?.toLowerCase() || 'jpg';
+    const filename = `avatar_${userId}_${timestamp}_${randomString}.${extension}`;
+    
+    const result = await uploadSingleFile(buffer, originalname, 'image/jpeg', {
+      folder: 'avatars',
+      filename,
+      metadata: { userId, type: 'avatar' },
+    });
+    
+    logger.info(`Avatar uploaded successfully: ${result.key}`);
+    return result.url;
+  } catch (error) {
+    logger.error('Failed to upload avatar to R2:', error);
+    throw new Error('Failed to upload avatar');
+  }
 }
 
 export async function generateAndUploadAvatar(

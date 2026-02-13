@@ -11,6 +11,7 @@ export type OrderStatus = $Enums.OrderStatus;
 export type PaymentStatus = $Enums.PaymentStatus;
 export type SubscriptionStatus = $Enums.SubscriptionStatus;
 export type AdStatus = $Enums.AdStatus;
+export type SellerApplicationStatus = $Enums.SellerApplicationStatus;
 
 export const UserRole = $Enums.UserRole;
 export const UserStatus = $Enums.UserStatus;
@@ -23,6 +24,7 @@ export const OrderStatus = $Enums.OrderStatus;
 export const PaymentStatus = $Enums.PaymentStatus;
 export const SubscriptionStatus = $Enums.SubscriptionStatus;
 export const AdStatus = $Enums.AdStatus;
+export const SellerApplicationStatus = $Enums.SellerApplicationStatus;
 
 export interface ApiResponse<T = unknown> {
   success: boolean;
@@ -68,6 +70,24 @@ export interface RegisterRequest {
   role?: UserRole;
 }
 
+export interface CustomerRegisterRequest {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  password: string;
+  confirmPassword: string;
+}
+
+export interface SellerRegisterRequest {
+  fullName: string;
+  businessName: string;
+  email: string;
+  phone: string;
+  password: string;
+  confirmPassword: string;
+}
+
 export interface AuthResponse {
   user: UserResponse;
   accessToken: string;
@@ -82,6 +102,7 @@ export interface UserResponse {
   email: string;
   phone: string;
   avatarUrl?: string;
+  bio?: string;
   role: UserRole;
   status: UserStatus;
   emailVerified: boolean;
@@ -289,6 +310,41 @@ export interface CreateSellerRequest {
   businessName: string;
   businessType: SellerBusinessType;
   businessAddress?: string;
+}
+
+export interface SellerApplicationRequest {
+  businessName: string;
+  businessType: SellerBusinessType;
+  taxId?: string;
+  businessAddress?: string;
+  description?: string;
+  phone?: string;
+  email?: string;
+  website?: string;
+}
+
+export interface SellerApplicationResponse {
+  id: string;
+  userId: string;
+  businessName: string;
+  businessType: SellerBusinessType;
+  taxId?: string;
+  businessAddress?: string;
+  description?: string;
+  phone?: string;
+  email?: string;
+  website?: string;
+  status: SellerApplicationStatus;
+  reviewNotes?: string;
+  reviewedBy?: string;
+  reviewedAt?: Date;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface ReviewApplicationRequest {
+  status: 'APPROVED' | 'REJECTED';
+  reviewNotes?: string;
 }
 
 export interface SellerResponse {

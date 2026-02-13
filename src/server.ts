@@ -11,7 +11,7 @@ import { logger, initializeLogCleanupJob } from "./utils/logger.js";
 import { ApiResponseBuilder, ResponseStatus } from "./utils/ApiResponse.js";
 import { isAppError, AppError, extractErrorInfo } from "./utils/AppError.js";
 
-import authRoutes from "./routes/aurh.route.js";
+import mainRoute from "./routes/index.js";
 
 const app: Express = express();
 
@@ -99,7 +99,7 @@ const API_PREFIX = "/api/v1";
 
 setupSwagger(app);
 
-app.use(`${API_PREFIX}/auth`, authRoutes);
+app.use(`${API_PREFIX}/`, mainRoute);
 
 app.get(`${API_PREFIX}`, (req: Request, res: Response) => {
   res.json({

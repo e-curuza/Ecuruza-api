@@ -243,3 +243,18 @@ export const uploadBanner = createMulterUpload({
     type.startsWith('image/')
   ),
 });
+
+export const uploadIdentityDocument = createMulterUpload({
+  folder: 'identity-documents',
+  maxSize: 10 * 1024 * 1024,
+  allowedMimeTypes: ['application/pdf', 'image/jpeg', 'image/png', 'image/webp'],
+});
+
+export const uploadShopImages = createMulterUpload({
+  folder: 'shops',
+  maxSize: FILE_SIZE_LIMITS.image,
+  allowedMimeTypes: ALLOWED_MIME_TYPES.filter((type) =>
+    type.startsWith('image/')
+  ),
+  maxFields: 10,
+});
