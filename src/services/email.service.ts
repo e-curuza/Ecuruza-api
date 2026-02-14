@@ -1,9 +1,7 @@
 import nodemailer from 'nodemailer';
 import { emailConfig } from '../config/email.config.js';
 import { logger } from '../utils/logger.js';
-import dns from 'dns';
 
-dns.setDefaultResultOrder('ipv4first');
 const transporter = nodemailer.createTransport({
   host: emailConfig.host,
   port: emailConfig.port,
