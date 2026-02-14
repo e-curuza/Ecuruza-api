@@ -6,7 +6,6 @@ const transporter = nodemailer.createTransport({
   host: emailConfig.host,
   port: emailConfig.port,
   secure: emailConfig.secure,
-  family: 4,
   auth: {
     user: emailConfig.user,
     pass: emailConfig.password,
