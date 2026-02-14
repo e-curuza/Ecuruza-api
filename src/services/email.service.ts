@@ -3,6 +3,7 @@ import { emailConfig } from '../config/email.config.js';
 import { logger } from '../utils/logger.js';
 
 const transporter = nodemailer.createTransport({
+  family: 4,
   host: emailConfig.host,
   port: emailConfig.port,
   secure: emailConfig.secure,
