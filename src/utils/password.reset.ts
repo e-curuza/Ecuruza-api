@@ -1,26 +1,26 @@
 import crypto from 'crypto';
 import { passwordResetConfig } from '../config/auth.config.js';
 
-export function generateResetToken(): string {
+export const generateResetToken = (): string => {
   return crypto.randomBytes(passwordResetConfig.tokenLength).toString('hex');
 }
 
-export function hashResetToken(token: string): string {
+export const hashResetToken = (token: string): string => {
   return crypto.createHash('sha256').update(token).digest('hex');
 }
 
-export function isResetTokenExpired(expiresAt: Date | null): boolean {
+export const isResetTokenExpired = (expiresAt: Date | null): boolean => {
   if (!expiresAt) return true;
   return new Date() > expiresAt;
 }
 
-export function getResetTokenExpiry(): Date {
+export const getResetTokenExpiry = (): Date => {
   const expiry = new Date();
   expiry.setMinutes(expiry.getMinutes() + passwordResetConfig.expiryMinutes);
   return expiry;
 }
 
-export function getGoogleAuthUrl(state: string): string {
+export const getGoogleAuthUrl = (state: string): string => {
   const googleAuthUrl = new URL('https://accounts.google.com/o/oauth2/v2/auth');
   
   googleAuthUrl.searchParams.set('client_id', process.env.GOOGLE_CLIENT_ID || '');
@@ -34,11 +34,11 @@ export function getGoogleAuthUrl(state: string): string {
   return googleAuthUrl.toString();
 }
 
-export async function exchangeCodeForTokens(code: string): Promise<{
+export const exchangeCodeForTokens = async (code: string): Promise<{
   access_token: string;
   id_token: string;
   refresh_token?: string;
-}> {
+}> => {
   const tokenUrl = 'https://oauth2.googleapis.com/token';
   
   const params = new URLSearchParams({
@@ -65,14 +65,14 @@ export async function exchangeCodeForTokens(code: string): Promise<{
   return response.json();
 }
 
-export async function getGoogleUserInfo(accessToken: string): Promise<{
+export const getGoogleUserInfo = async (accessToken: string): Promise<{
   id: string;
   email: string;
   name: string;
   picture?: string;
   given_name?: string;
   family_name?: string;
-}> {
+}> => {
   const response = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
     headers: {
       Authorization: `Bearer ${accessToken}`,

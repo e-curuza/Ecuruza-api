@@ -80,7 +80,7 @@ const fileFilter = (
   callback(null, true);
 };
 
-export function createMulterUpload(options: UploadOptions = {}) {
+export const createMulterUpload = (options: UploadOptions = {}) => {
   const {
     folder = 'uploads',
     maxSize = FILE_SIZE_LIMITS.default,
@@ -131,10 +131,10 @@ export const uploadDocument = createMulterUpload({
   allowedMimeTypes: ['application/pdf'],
 });
 
-export async function uploadToR2(
+export const uploadToR2 = async (
   req: Request,
   fieldName: string = 'file'
-): Promise<void> {
+): Promise<void> => {
   const file = req.file as Express.Multer.File | undefined;
 
   if (!file) {
@@ -154,10 +154,10 @@ export async function uploadToR2(
   (file as any).url = result.url;
 }
 
-export async function uploadMultipleToR2(
+export const uploadMultipleToR2 = async (
   req: Request,
   fieldName: string = 'files'
-): Promise<void> {
+): Promise<void> => {
   const files = req.files as Express.Multer.File[] | undefined;
 
   if (!files || !Array.isArray(files)) {
@@ -181,7 +181,7 @@ export async function uploadMultipleToR2(
   );
 }
 
-export function createUploadMiddleware(options: UploadOptions = {}) {
+export const createUploadMiddleware = (options: UploadOptions = {}) => {
   const {
     folder = 'uploads',
     maxSize = FILE_SIZE_LIMITS.default,

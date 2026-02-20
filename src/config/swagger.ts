@@ -19,7 +19,10 @@ const options: swaggerJsdoc.Options = {
       { name: "Users", description: "User management endpoints" },
       { name: "Sellers", description: "Seller management endpoints" },
       { name: "Shops", description: "Shop management endpoints" },
+      { name: "Categories", description: "Category management endpoints" },
       { name: "Products", description: "Product management endpoints" },
+      { name: "Reviews", description: "Product review management endpoints" },
+      { name: "Shop Reviews", description: "Shop review management endpoints" },
       { name: "Orders", description: "Order processing endpoints" },
       { name: "Payments", description: "Afripay payment integration" },
       { name: "Subscriptions", description: "Advertising and subscription plans" },
@@ -42,6 +45,72 @@ const options: swaggerJsdoc.Options = {
           type: "http",
           scheme: "bearer",
           bearerFormat: "JWT",
+        },
+      },
+      schemas: {
+        ReviewResponse: {
+          type: "object",
+          properties: {
+            id: {
+              type: "string",
+              format: "uuid",
+            },
+            userId: {
+              type: "string",
+              format: "uuid",
+            },
+            productId: {
+              type: "string",
+              format: "uuid",
+            },
+            rating: {
+              type: "integer",
+              minimum: 1,
+              maximum: 5,
+            },
+            comment: {
+              type: "string",
+            },
+            createdAt: {
+              type: "string",
+              format: "date-time",
+            },
+            updatedAt: {
+              type: "string",
+              format: "date-time",
+            },
+            user: {
+              type: "object",
+              properties: {
+                firstName: {
+                  type: "string",
+                },
+                lastName: {
+                  type: "string",
+                },
+                avatarUrl: {
+                  type: "string",
+                },
+              },
+            },
+          },
+        },
+        Pagination: {
+          type: "object",
+          properties: {
+            page: {
+              type: "integer",
+            },
+            limit: {
+              type: "integer",
+            },
+            total: {
+              type: "integer",
+            },
+            totalPages: {
+              type: "integer",
+            },
+          },
         },
       },
     },

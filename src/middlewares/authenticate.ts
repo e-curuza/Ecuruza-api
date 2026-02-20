@@ -8,11 +8,11 @@ export interface AuthenticatedRequest extends Request {
   user?: TokenPayload;
 }
 
-export function authenticate(
+export const authenticate = (
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
-): void {
+): void => {
   try {
     const authHeader = req.headers.authorization;
     const token = extractTokenFromHeader(authHeader);
@@ -29,11 +29,11 @@ export function authenticate(
   }
 }
 
-export function optionalAuth(
+export const optionalAuth = (
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
-): void {
+): void => {
   try {
     const authHeader = req.headers.authorization;
     const token = extractTokenFromHeader(authHeader);
@@ -48,7 +48,7 @@ export function optionalAuth(
   }
 }
 
-export function authorize(...allowedRoles: string[]) {
+export const authorize = (...allowedRoles: string[]) => {
   return (
     req: AuthenticatedRequest,
     res: Response,
@@ -76,11 +76,11 @@ export const sellerOnly = authorize('SELLER');
 export const customerOnly = authorize('CUSTOMER');
 export const adminOrSeller = authorize('ADMIN', 'SELLER');
 
-export function authenticateRefreshToken(
+export const authenticateRefreshToken = (
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
-): void {
+): void => {
   try {
     const authHeader = req.headers['x-refresh-token'] as string | undefined;
     const token = extractTokenFromHeader(authHeader);
@@ -97,11 +97,11 @@ export function authenticateRefreshToken(
   }
 }
 
-export function authenticateWithFallback(
+export const authenticateWithFallback = (
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
-): void {
+): void => {
   try {
     const authHeader = req.headers.authorization;
     const token = extractTokenFromHeader(authHeader);
@@ -127,35 +127,35 @@ export function authenticateWithFallback(
   }
 }
 
-export function adminWithRefresh(req: AuthenticatedRequest, res: Response, next: NextFunction): void {
+export const adminWithRefresh = (req: AuthenticatedRequest, res: Response, next: NextFunction): void => {
   authenticateRefreshToken(req, res, (err) => {
     if (err) return next(err);
     authorize('ADMIN')(req, res, next);
   });
 }
 
-export function sellerWithRefresh(req: AuthenticatedRequest, res: Response, next: NextFunction): void {
+export const sellerWithRefresh = (req: AuthenticatedRequest, res: Response, next: NextFunction): void => {
   authenticateRefreshToken(req, res, (err) => {
     if (err) return next(err);
     authorize('SELLER')(req, res, next);
   });
 }
 
-export function customerWithRefresh(req: AuthenticatedRequest, res: Response, next: NextFunction): void {
+export const customerWithRefresh = (req: AuthenticatedRequest, res: Response, next: NextFunction): void => {
   authenticateRefreshToken(req, res, (err) => {
     if (err) return next(err);
     authorize('CUSTOMER')(req, res, next);
   });
 }
 
-export function adminOrSellerWithRefresh(req: AuthenticatedRequest, res: Response, next: NextFunction): void {
+export const adminOrSellerWithRefresh = (req: AuthenticatedRequest, res: Response, next: NextFunction): void => {
   authenticateRefreshToken(req, res, (err) => {
     if (err) return next(err);
     authorize('ADMIN', 'SELLER')(req, res, next);
   });
 }
 
-export function adminWithFallback(req: AuthenticatedRequest, res: Response, next: NextFunction): void {
+export const adminWithFallback = (req: AuthenticatedRequest, res: Response, next: NextFunction): void => {
   authenticateWithFallback(req, res, (err) => {
     if (err) return next(err);
     authorize('ADMIN')(req, res, next);

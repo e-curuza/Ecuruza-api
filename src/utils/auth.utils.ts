@@ -10,31 +10,31 @@ const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || 'your-super-secret-
 const ACCESS_TOKEN_EXPIRY = 24 * 60 * 60;
 const REFRESH_TOKEN_EXPIRY = 7 * 24 * 60 * 60;
 
-export async function hashPassword(password: string): Promise<string> {
+export const hashPassword = async (password: string): Promise<string> => {
   const saltRounds = 12;
   return bcrypt.hash(password, saltRounds);
 }
 
-export async function comparePassword(
+export const comparePassword = async (
   password: string,
   hash: string
-): Promise<boolean> {
+): Promise<boolean> => {
   return bcrypt.compare(password, hash);
 }
 
-export function generateAccessToken(payload: AuthPayload): string {
+export const generateAccessToken = (payload: AuthPayload): string => {
   return jwt.sign(payload, JWT_SECRET, {
     expiresIn: ACCESS_TOKEN_EXPIRY,
   });
 }
 
-export function generateRefreshToken(payload: AuthPayload): string {
+export const generateRefreshToken = (payload: AuthPayload): string => {
   return jwt.sign(payload, JWT_REFRESH_SECRET, {
     expiresIn: REFRESH_TOKEN_EXPIRY,
   });
 }
 
-export function verifyAccessToken(token: string): TokenPayload {
+export const verifyAccessToken = (token: string): TokenPayload => {
   try {
     return jwt.verify(token, JWT_SECRET) as TokenPayload;
   } catch (error) {
@@ -43,7 +43,7 @@ export function verifyAccessToken(token: string): TokenPayload {
   }
 }
 
-export function verifyRefreshToken(token: string): TokenPayload {
+export const verifyRefreshToken = (token: string): TokenPayload => {
   try {
     return jwt.verify(token, JWT_REFRESH_SECRET) as TokenPayload;
   } catch (error) {
@@ -52,25 +52,25 @@ export function verifyRefreshToken(token: string): TokenPayload {
   }
 }
 
-export function generateTokenPair(payload: AuthPayload): {
+export const generateTokenPair = (payload: AuthPayload): {
   accessToken: string;
   refreshToken: string;
-} {
+} => {
   const accessToken = generateAccessToken(payload);
   const refreshToken = generateRefreshToken(payload);
   return { accessToken, refreshToken };
 }
 
-export function extractTokenFromHeader(
+export const extractTokenFromHeader = (
   authHeader: string | undefined
-): string | null {
+): string | null => {
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return null;
   }
   return authHeader.substring(7);
 }
 
-export function decodeToken(token: string): TokenPayload | null {
+export const decodeToken = (token: string): TokenPayload | null => {
   try {
     return jwt.decode(token) as TokenPayload;
   } catch {
@@ -78,7 +78,7 @@ export function decodeToken(token: string): TokenPayload | null {
   }
 }
 
-export function isTokenExpired(token: string): boolean {
+export const isTokenExpired = (token: string): boolean => {
   const decoded = decodeToken(token);
   if (!decoded || !decoded.exp) {
     return true;
@@ -86,7 +86,7 @@ export function isTokenExpired(token: string): boolean {
   return Date.now() >= decoded.exp * 1000;
 }
 
-export function getTokenExpirationTime(token: string): number | null {
+export const getTokenExpirationTime = (token: string): number | null => {
   const decoded = decodeToken(token);
   if (!decoded || !decoded.exp) {
     return null;

@@ -1,25 +1,23 @@
 import crypto from 'crypto';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { prisma } from '../config/db.js';
 
 export const otpConfig = {
   expiryMinutes: 10,
   length: 6,
 };
 
-export function generateOTP(): string {
+export const generateOTP = (): string => {
   return crypto.randomInt(
     Math.pow(10, otpConfig.length - 1),
     Math.pow(10, otpConfig.length) - 1
   ).toString().padStart(otpConfig.length, '0');
 }
 
-export function getOTPExpiry(): Date {
+export const getOTPExpiry = (): Date => {
   return new Date(Date.now() + otpConfig.expiryMinutes * 60 * 1000);
 }
 
-export async function createOrUpdateOTP(email: string): Promise<{ code: string; expiresAt: Date }> {
+export const createOrUpdateOTP = async (email: string): Promise<{ code: string; expiresAt: Date }> => {
   const code = generateOTP();
   const expiresAt = getOTPExpiry();
 
@@ -42,7 +40,7 @@ export async function createOrUpdateOTP(email: string): Promise<{ code: string; 
   return { code, expiresAt };
 }
 
-export async function verifyOTP(email: string, code: string): Promise<boolean> {
+export const verifyOTP = async (email: string, code: string): Promise<boolean> => {
   const user = await prisma.user.findUnique({
     where: { email },
   });
@@ -78,7 +76,7 @@ export async function verifyOTP(email: string, code: string): Promise<boolean> {
   return true;
 }
 
-export async function deleteOTP(email: string): Promise<void> {
+export const deleteOTP = async (email: string): Promise<void> => {
   const user = await prisma.user.findUnique({
     where: { email },
   });
@@ -94,7 +92,7 @@ export async function deleteOTP(email: string): Promise<void> {
   }
 }
 
-export async function cleanupExpiredOTPs(): Promise<number> {
+export const cleanupExpiredOTPs = async (): Promise<number> => {
   const result = await prisma.user.updateMany({
     where: {
       emailVerificationExpires: {

@@ -10,7 +10,7 @@
  * /api/v1/shop:
  *   post:
  *     summary: Create a new shop
- *     tags: [Shops]
+ *     tags: [Sellers,Shops]
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -103,7 +103,7 @@
  * /api/v1/shop/{id}:
  *   put:
  *     summary: Update shop details
- *     tags: [Shops]
+ *     tags: [Shops, Sellers]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -190,7 +190,7 @@
  * /api/v1/shop/my-shop:
  *   get:
  *     summary: Get current seller's shop
- *     tags: [Shops]
+ *     tags: [Shops, Sellers]
  *     security:
  *       - bearerAuth: []
  *     responses:
@@ -207,7 +207,7 @@
  * /api/v1/shop/all:
  *   get:
  *     summary: Get all active shops (public)
- *     tags: [Shops]
+ *     tags: [Shops,Public]
  *     security: []
  *     parameters:
  *       - in: query
@@ -232,7 +232,7 @@
  * /api/v1/shop/slug/{slug}:
  *   get:
  *     summary: Get shop by slug (public)
- *     tags: [Shops]
+ *     tags: [Shops,Public]
  *     security: []
  *     parameters:
  *       - in: path
@@ -253,7 +253,7 @@
  * /api/v1/shop/{id}:
  *   get:
  *     summary: Get shop by ID (public)
- *     tags: [Shops]
+ *     tags: [Shops, Public]
  *     security: []
  *     parameters:
  *       - in: path
@@ -274,7 +274,7 @@
  * /api/v1/shop/{id}:
  *   delete:
  *     summary: Delete shop
- *     tags: [Shops]
+ *     tags: [Shops,Admin]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -298,7 +298,7 @@
  * /api/v1/shop/{id}/view:
  *   post:
  *     summary: Increment shop view count (public)
- *     tags: [Shops]
+ *     tags: [Shops, Public]
  *     security: []
  *     parameters:
  *       - in: path
@@ -360,7 +360,7 @@
  * /api/v1/shop/{id}/reviews:
  *   get:
  *     summary: Get all reviews for a shop (public)
- *     tags: [Shops]
+ *     tags: [Shops, Public]
  *     security: []
  *     parameters:
  *       - in: path
@@ -391,7 +391,7 @@
  * /api/v1/shop/{id}/reviews/{reviewId}:
  *   delete:
  *     summary: Delete a shop review
- *     tags: [Shops]
+ *     tags: [Shops,Sellers]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -421,7 +421,7 @@
  * /api/v1/shop/my-shop/stats:
  *   get:
  *     summary: Get shop statistics (views, ratings, reviews count)
- *     tags: [Shops]
+ *     tags: [Shops,Sellers]
  *     security:
  *       - bearerAuth: []
  *     responses:

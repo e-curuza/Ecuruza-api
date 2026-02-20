@@ -1,12 +1,13 @@
 import type { Request, Response, NextFunction } from 'express';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '../config/db.js';
 import createError from 'http-errors';
 import { logger } from '../utils/logger.js';
 import { ApiResponseBuilder } from '../utils/ApiResponse.js';
 import type { AuthenticatedRequest } from '../middlewares/authenticate.js';
 import { r2Service } from '../services/r2.service.js';
+import type { ShopStatus, CreateShopRequest, UpdateShopRequest } from '../utils/type.js';
 
-const prisma = new PrismaClient();
+ 
 
 function generateSlug(name: string): string {
   return name
@@ -15,11 +16,11 @@ function generateSlug(name: string): string {
     .replace(/(^-|-$)/g, '');
 }
 
-export async function createShop(
+export const createShop = async (
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const userPayload = (req as any).user;
     const userId = userPayload.userId;
@@ -96,11 +97,11 @@ export async function createShop(
   }
 }
 
-export async function updateShop(
+export const updateShop = async (
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const userPayload = (req as any).user;
     const userId = userPayload.userId;
@@ -186,11 +187,11 @@ export async function updateShop(
   }
 }
 
-export async function getMyShop(
+export const getMyShop = async (
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const userPayload = (req as any).user;
     const userId = userPayload.userId;
@@ -214,11 +215,11 @@ export async function getMyShop(
   }
 }
 
-export async function getShopById(
+export const getShopById = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const { id } = req.params;
 
@@ -240,11 +241,11 @@ export async function getShopById(
   }
 }
 
-export async function getShopBySlug(
+export const getShopBySlug = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const { slug } = req.params;
 
@@ -266,11 +267,11 @@ export async function getShopBySlug(
   }
 }
 
-export async function deleteShop(
+export const deleteShop = async (
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const userPayload = (req as any).user;
     const userId = userPayload.userId;
@@ -296,11 +297,11 @@ export async function deleteShop(
   }
 }
 
-export async function getAllShops(
+export const getAllShops = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const page = parseInt(req.query.page as string) || 1;
     const limit = parseInt(req.query.limit as string) || 20;
@@ -329,11 +330,11 @@ export async function getAllShops(
   }
 }
 
-export async function incrementShopView(
+export const incrementShopView = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const { id } = req.params;
 
@@ -352,11 +353,11 @@ export async function incrementShopView(
   }
 }
 
-export async function addShopReview(
+export const addShopReview = async (
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const userPayload = (req as any).user;
     const userId = userPayload.userId;
@@ -398,11 +399,11 @@ export async function addShopReview(
   }
 }
 
-export async function getShopReviews(
+export const getShopReviews = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const { id } = req.params;
     const page = parseInt(req.query.page as string) || 1;
@@ -434,11 +435,11 @@ export async function getShopReviews(
   }
 }
 
-export async function deleteShopReview(
+export const deleteShopReview = async (
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const userPayload = (req as any).user;
     const userId = userPayload.userId;
@@ -466,11 +467,11 @@ export async function deleteShopReview(
   }
 }
 
-export async function getMyShopStats(
+export const getMyShopStats = async (
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const userPayload = (req as any).user;
     const userId = userPayload.userId;

@@ -290,22 +290,22 @@ export const sellerRegisterValidation = [
     .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/)
     .withMessage('Password must contain at least one uppercase letter, one lowercase letter, and one number'),
   
-  body('confirmPassword')
-    .notEmpty()
-    .withMessage('Confirm password is required')
-    .custom((value, { req }) => {
-      if (value !== req.body.password) {
-        throw new Error('Passwords do not match');
-      }
-      return true;
-    }),
+  // body('confirmPassword')
+  //   .notEmpty()
+  //   .withMessage('Confirm password is required')
+  //   .custom((value, { req }) => {
+  //     if (value !== req.body.password) {
+  //       throw new Error('Passwords do not match');
+  //     }
+  //     return true;
+  //   }),
 ];
 
-export function validate(
+export const validate = (
   req: Request,
   res: Response,
   next: NextFunction
-): void {
+): void => {
   const errors = validationResult(req);
   
   if (!errors.isEmpty()) {

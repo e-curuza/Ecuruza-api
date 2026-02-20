@@ -177,7 +177,7 @@ function paginateLogs(
   return { paginatedLogs, total, totalPages };
 }
 
-export function getLogs(options: LogFilterOptions) {
+export const getLogs = (options: LogFilterOptions) => {
   const lines = readLogFile();
   if (!lines.length) return { success: false, message: "Log file is empty or missing.", data: [] };
 
@@ -192,35 +192,39 @@ export function getLogs(options: LogFilterOptions) {
   };
 }
 
-export function getPaymentLogs(options: LogFilterOptions) {
+export const getPaymentLogs = (options: LogFilterOptions) => {
   const paymentKeywords = ["payment", "transaction", "stripe", "card", "fee", "subscription", "refund", "charge", "booking", "tax", "plan"];
   return getLogs({ ...options, keywords: paymentKeywords });
 }
 
-export function getErrorLogs(options: LogFilterOptions) {
+export const getErrorLogs = (options: LogFilterOptions) => {
   return getLogs({ ...options, level: "error" });
 }
 
 function cleanupOldLogs() {
-  const allLines = readLogFile();
-  const oneMonthAgo = new Date(Date.now() - 31 * 24 * 60 * 60 * 1000);
-  const filteredLines = allLines.filter((line) => {
-    const parsed = parseLogLine(line);
-    if (!parsed) return false;
-    const ts = parseTimestamp(parsed.timestamp);
-    return ts && ts >= oneMonthAgo;
-  });
+  (async () => {
+    try {
+      if (!fs.existsSync(logFilePath)) return;
+      const data = await fs.promises.readFile(logFilePath, 'utf-8');
+      const allLines = data.split(/\r?\n/).filter(Boolean);
+      const oneMonthAgo = new Date(Date.now() - 31 * 24 * 60 * 60 * 1000);
+      const filteredLines = allLines.filter((line) => {
+        const parsed = parseLogLine(line);
+        if (!parsed) return false;
+        const ts = parseTimestamp(parsed.timestamp);
+        return ts && ts >= oneMonthAgo;
+      });
 
-  try {
-    fs.writeFileSync(logFilePath, filteredLines.join("\n") + "\n", "utf-8");
-    logger.debug("Old logs cleaned up (older than 1 month)", { action: "log_cleanup" });
-  } catch (err) {
-    logger.error("Failed to clean up old logs", { error: err });
-  }
+      await fs.promises.writeFile(logFilePath, filteredLines.join('\n') + '\n', 'utf-8');
+      logger.debug('Old logs cleaned up (older than 1 month)', { action: 'log_cleanup' });
+    } catch (err) {
+      logger.error('Failed to clean up old logs', { error: err });
+    }
+  })();
 }
 
 let cleanupJob: CronJob<string> | null = null;
-export function initializeLogCleanupJob() {
+export const initializeLogCleanupJob = () => {
   if (cleanupJob) return cleanupJob;
 
   cleanupJob = new CronJob(

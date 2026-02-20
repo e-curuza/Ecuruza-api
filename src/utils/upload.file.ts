@@ -29,21 +29,21 @@ export interface ImageDimensions {
   minHeight?: number;
 }
 
-export function sanitizeFilename(filename: string): string {
+export const sanitizeFilename = (filename: string): string => {
   return filename
     .replace(/[^a-zA-Z0-9.-]/g, '_')
     .replace(/_{2,}/g, '_')
     .toLowerCase();
 }
 
-export function getFileExtension(filename: string): string {
+export const getFileExtension = (filename: string): string => {
   return filename.split('.').pop()?.toLowerCase() || '';
 }
 
-export function generateUniqueFilename(
+export const generateUniqueFilename = (
   originalname: string,
   prefix?: string
-): string {
+): string => {
   const timestamp = Date.now();
   const randomString = crypto.randomBytes(4).toString('hex');
   const sanitized = sanitizeFilename(originalname);
@@ -55,26 +55,26 @@ export function generateUniqueFilename(
     : `${nameWithoutExt}_${timestamp}_${randomString}.${extension}`;
 }
 
-export function isImage(mimeType: string): boolean {
+export const isImage = (mimeType: string): boolean => {
   return SUPPORTED_IMAGE_TYPES.includes(mimeType);
 }
 
-export function isDocument(mimeType: string): boolean {
+export const isDocument = (mimeType: string): boolean => {
   return SUPPORTED_DOCUMENT_TYPES.includes(mimeType);
 }
 
-export function isVideo(mimeType: string): boolean {
+export const isVideo = (mimeType: string): boolean => {
   return SUPPORTED_VIDEO_TYPES.includes(mimeType);
 }
 
-export function getFileCategory(mimeType: string): string {
+export const getFileCategory = (mimeType: string): string => {
   if (isImage(mimeType)) return 'images';
   if (isVideo(mimeType)) return 'videos';
   if (isDocument(mimeType)) return 'documents';
   return 'files';
 }
 
-export function formatFileSize(bytes: number): string {
+export const formatFileSize = (bytes: number): string => {
   if (bytes === 0) return '0 Bytes';
   
   const k = 1024;
@@ -84,9 +84,9 @@ export function formatFileSize(bytes: number): string {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
 }
 
-export function validateImageDimensions(
+export const validateImageDimensions = (
   dimensions: ImageDimensions
-): { valid: boolean; error?: string } {
+): { valid: boolean; error?: string } => {
   const { width, height, maxWidth, maxHeight, minWidth, minHeight } = dimensions;
   
   if (maxWidth && width > maxWidth) {
@@ -108,12 +108,12 @@ export function validateImageDimensions(
   return { valid: true };
 }
 
-export async function uploadSingleFile(
+export const uploadSingleFile = async (
   buffer: Buffer,
   originalname: string,
   mimeType: string,
   options?: Partial<UploadOptions>
-): Promise<UploadResult> {
+): Promise<UploadResult> => {
   try {
     const folder = options?.folder || getFileCategory(mimeType);
     const filename = options?.filename || generateUniqueFilename(originalname);
@@ -134,10 +134,10 @@ export async function uploadSingleFile(
   }
 }
 
-export async function uploadMultipleFiles(
+export const uploadMultipleFiles = async (
   files: Array<{ buffer: Buffer; originalname: string; mimetype: string }>,
   options?: Partial<UploadOptions>
-): Promise<UploadResult[]> {
+): Promise<UploadResult[]> => {
   try {
     const uploadPromises = files.map((file) =>
       uploadSingleFile(file.buffer, file.originalname, file.mimetype, options)
@@ -152,11 +152,11 @@ export async function uploadMultipleFiles(
   }
 }
 
-export async function uploadAvatar(
+export const uploadAvatar = async (
   buffer: Buffer,
   originalname: string,
   userId: string
-): Promise<UploadResult> {
+): Promise<UploadResult> => {
   const filename = generateUniqueFilename(originalname, `avatar_${userId}`);
   
   return uploadSingleFile(buffer, originalname, 'image/jpeg', {
@@ -166,12 +166,12 @@ export async function uploadAvatar(
   });
 }
 
-export async function uploadProductImage(
+export const uploadProductImage = async (
   buffer: Buffer,
   originalname: string,
   productId: string,
   index: number
-): Promise<UploadResult> {
+): Promise<UploadResult> => {
   const filename = generateUniqueFilename(originalname, `product_${productId}_${index}`);
   
   return uploadSingleFile(buffer, originalname, 'image/jpeg', {
@@ -181,11 +181,11 @@ export async function uploadProductImage(
   });
 }
 
-export async function uploadShopLogo(
+export const uploadShopLogo = async (
   buffer: Buffer,
   originalname: string,
   shopId: string
-): Promise<UploadResult> {
+): Promise<UploadResult> => {
   const filename = generateUniqueFilename(originalname, `logo_${shopId}`);
   
   return uploadSingleFile(buffer, originalname, 'image/jpeg', {
@@ -195,11 +195,11 @@ export async function uploadShopLogo(
   });
 }
 
-export async function uploadShopBanner(
+export const uploadShopBanner = async (
   buffer: Buffer,
   originalname: string,
   shopId: string
-): Promise<UploadResult> {
+): Promise<UploadResult> => {
   const filename = generateUniqueFilename(originalname, `banner_${shopId}`);
   
   return uploadSingleFile(buffer, originalname, 'image/jpeg', {
@@ -209,7 +209,7 @@ export async function uploadShopBanner(
   });
 }
 
-export async function deleteFile(key: string): Promise<void> {
+export const deleteFile = async (key: string): Promise<void> => {
   try {
     await r2Service.deleteFile(key);
     logger.info(`File deleted successfully: ${key}`);
@@ -219,7 +219,7 @@ export async function deleteFile(key: string): Promise<void> {
   }
 }
 
-export async function deleteFiles(keys: string[]): Promise<void> {
+export const deleteFiles = async (keys: string[]): Promise<void> => {
   try {
     await r2Service.deleteFiles(keys);
     logger.info(`${keys.length} files deleted successfully`);
@@ -229,10 +229,10 @@ export async function deleteFiles(keys: string[]): Promise<void> {
   }
 }
 
-export async function getSignedDownloadUrl(
+export const getSignedDownloadUrl = async (
   key: string,
   expiresIn: number = 3600
-): Promise<string> {
+): Promise<string> => {
   try {
     return await r2Service.getSignedUrl(key, expiresIn);
   } catch (error) {
@@ -241,11 +241,11 @@ export async function getSignedDownloadUrl(
   }
 }
 
-export async function getSignedUploadUrl(
+export const getSignedUploadUrl = async (
   key: string,
   contentType: string,
   expiresIn: number = 3600
-): Promise<string> {
+): Promise<string> => {
   try {
     return await r2Service.getUploadSignedUrl(key, contentType, expiresIn);
   } catch (error) {
@@ -254,7 +254,7 @@ export async function getSignedUploadUrl(
   }
 }
 
-export function extractKeyFromUrl(url: string): string {
+export const extractKeyFromUrl = (url: string): string => {
   try {
     const urlObj = new URL(url);
     return urlObj.pathname.substring(1);
@@ -264,6 +264,6 @@ export function extractKeyFromUrl(url: string): string {
   }
 }
 
-export async function fileExists(key: string): Promise<boolean> {
+export const fileExists = async (key: string): Promise<boolean> => {
   return r2Service.fileExists(key);
 }

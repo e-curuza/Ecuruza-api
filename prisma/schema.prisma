@@ -232,8 +232,8 @@ model Product {
   description String?
   basePrice   Float
   discount    Float?
-  status      ProductStatus
-  visibility  ProductVisibility
+  status      ProductStatus @default(DRAFT)
+  visibility  ProductVisibility @default(PUBLIC)
   createdAt   DateTime          @default(now())
 
   shop       Shop             @relation(fields: [shopId], references: [id])
@@ -254,8 +254,9 @@ model ProductVariant {
   stock      Int
   attributes Json? // optional variant details like {"Size":"M","Color":"Red"}
 
-  product   Product     @relation(fields: [productId], references: [id])
-  inventory Inventory[]
+  product    Product     @relation(fields: [productId], references: [id])
+  inventory  Inventory[]
+  orderItems OrderItem[]
 }
 
 model ProductImage {
@@ -299,6 +300,7 @@ model Order {
   total         Float
   paymentStatus PaymentStatus
   createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
 
   user     User        @relation(fields: [userId], references: [id])
   items    OrderItem[]
@@ -309,11 +311,15 @@ model OrderItem {
   id        String @id @default(uuid())
   orderId   String
   productId String
+  variantId String?
   quantity  Int
   price     Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   order   Order   @relation(fields: [orderId], references: [id])
   product Product @relation(fields: [productId], references: [id])
+  variant ProductVariant? @relation(fields: [variantId], references: [id])
 }
 
 model Payment {
@@ -346,6 +352,7 @@ model Review {
   rating    Int
   comment   String?
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   user    User    @relation(fields: [userId], references: [id])
   product Product @relation(fields: [productId], references: [id])
@@ -358,6 +365,7 @@ model ShopReview {
   rating    Int
   comment   String?
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   user User @relation(fields: [userId], references: [id])
   shop Shop @relation(fields: [shopId], references: [id], onDelete: Cascade)

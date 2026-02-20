@@ -110,12 +110,10 @@ app.get(`${API_PREFIX}`, (req: Request, res: Response) => {
   });
 });
 
-// Root endpoint - redirects to API info
 app.get("/", (req: Request, res: Response) => {
   res.redirect(`/api/v1`);
 });
 
-// Favicon handler - prevents 404 errors
 app.get("/favicon.ico", (req: Request, res: Response) => {
   res.status(204).send();
 });
