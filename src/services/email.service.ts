@@ -1,6 +1,7 @@
 import nodemailer from 'nodemailer';
 import { emailConfig } from '../config/email.config.js';
 import { logger } from '../utils/logger.js';
+import { AppError, ErrorCode } from '../utils/AppError.js';
 import dns from 'node:dns';
 
 dns.setDefaultResultOrder('ipv4first');
@@ -16,11 +17,11 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-export async function sendVerificationEmail(
+export const sendVerificationEmail = async (
   email: string,
   code: string,
   expiresIn: number = 2
-): Promise<boolean> {
+): Promise<boolean> => {
   try {
     const mailOptions = {
       from: `"${emailConfig.fromName}" <${emailConfig.from}>`,
@@ -68,15 +69,21 @@ export async function sendVerificationEmail(
     return true;
   } catch (error) {
     logger.error(`Failed to send verification email to ${email}:`, error);
-    return false;
+    throw new AppError({
+      code: ErrorCode.EXTERNAL_SERVICE_ERROR,
+      message: 'Failed to send verification email',
+      statusCode: 500,
+      action: 'Please try again later or contact support',
+      meta: { email, operation: 'sendVerificationEmail' },
+    });
   }
 }
 
-export async function sendPasswordResetEmail(
+export const sendPasswordResetEmail = async (
   email: string,
   resetUrl: string,
   expiresInHours: number = 1
-): Promise<boolean> {
+): Promise<boolean> => {
   try {
     const mailOptions = {
       from: `"${emailConfig.fromName}" <${emailConfig.from}>`,
@@ -123,14 +130,20 @@ export async function sendPasswordResetEmail(
     return true;
   } catch (error) {
     logger.error(`Failed to send password reset email to ${email}:`, error);
-    return false;
+    throw new AppError({
+      code: ErrorCode.EXTERNAL_SERVICE_ERROR,
+      message: 'Failed to send password reset email',
+      statusCode: 500,
+      action: 'Please try again later or contact support',
+      meta: { email, operation: 'sendPasswordResetEmail' },
+    });
   }
 }
 
-export async function sendPasswordChangeConfirmationEmail(
+export const sendPasswordChangeConfirmationEmail = async (
   email: string,
   firstName: string
-): Promise<boolean> {
+): Promise<boolean> => {
   try {
     const mailOptions = {
       from: `"${emailConfig.fromName}" <${emailConfig.from}>`,
@@ -175,15 +188,21 @@ export async function sendPasswordChangeConfirmationEmail(
     return true;
   } catch (error) {
     logger.error(`Failed to send password change confirmation email to ${email}:`, error);
-    return false;
+    throw new AppError({
+      code: ErrorCode.EXTERNAL_SERVICE_ERROR,
+      message: 'Failed to send password change confirmation email',
+      statusCode: 500,
+      action: 'Please try again later or contact support',
+      meta: { email, operation: 'sendPasswordChangeConfirmationEmail' },
+    });
   }
 }
 
-export async function sendEmail(
+export const sendEmail = async (
   to: string,
   subject: string,
   html: string
-): Promise<boolean> {
+): Promise<boolean> => {
   try {
     const mailOptions = {
       from: `"${emailConfig.fromName}" <${emailConfig.from}>`,
@@ -197,17 +216,29 @@ export async function sendEmail(
     return true;
   } catch (error) {
     logger.error(`Failed to send email to ${to}:`, error);
-    return false;
+    throw new AppError({
+      code: ErrorCode.EXTERNAL_SERVICE_ERROR,
+      message: 'Failed to send email',
+      statusCode: 500,
+      action: 'Please try again later or contact support',
+      meta: { to, subject, operation: 'sendEmail' },
+    });
   }
 }
 
-export async function verifyEmailConfig(): Promise<boolean> {
+export const verifyEmailConfig = async (): Promise<boolean> => {
   try {
     await transporter.verify();
     logger.info('Email server is ready');
     return true;
   } catch (error) {
     logger.error('Email server verification failed:', error);
-    return false;
+    throw new AppError({
+      code: ErrorCode.EXTERNAL_SERVICE_ERROR,
+      message: 'Email server verification failed',
+      statusCode: 500,
+      action: 'Check email configuration and try again',
+      meta: { operation: 'verifyEmailConfig' },
+    });
   }
 }

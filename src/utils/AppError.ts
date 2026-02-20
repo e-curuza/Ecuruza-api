@@ -221,7 +221,7 @@ export class AppError extends Error {
   }
 }
 
-export function isAppError(error: unknown): error is AppError {
+export const isAppError = (error: unknown): error is AppError => {
   return error instanceof AppError;
 }
 
@@ -232,7 +232,7 @@ interface ExtractErrorResult {
   stack?: string;
 }
 
-export function extractErrorInfo(error: unknown): ExtractErrorResult {
+export const extractErrorInfo = (error: unknown): ExtractErrorResult => {
   if (isAppError(error)) {
     const result: ExtractErrorResult = {
       message: error.message,

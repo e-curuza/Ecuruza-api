@@ -14,7 +14,7 @@
  * /api/v1/users:
  *   get:
  *     summary: Get all users (admin)
- *     tags: [Users]
+ *     tags: [Admin]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -70,7 +70,7 @@
  * /api/v1/users/{id}:
  *   get:
  *     summary: Get user by ID (admin)
- *     tags: [Users]
+ *     tags: [Admin]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -125,7 +125,7 @@
  *         description: User not found
  *   delete:
  *     summary: Delete user (soft delete)
- *     tags: [Users]
+ *     tags: [Admin,Users]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -147,7 +147,7 @@
  * /api/v1/users/{id}/suspend:
  *   post:
  *     summary: Suspend user
- *     tags: [Users]
+ *     tags: [Admin]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -180,7 +180,7 @@
  * /api/v1/users/{id}/activate:
  *   post:
  *     summary: Activate suspended user
- *     tags: [Users]
+ *     tags: [Admin]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -367,7 +367,7 @@
  * /api/v1/users/me/orders:
  *   get:
  *     summary: Get user orders
- *     tags: [Users]
+ *     tags: [Orders]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -393,7 +393,7 @@
  * /api/v1/users/me/orders/{id}:
  *   get:
  *     summary: Get user order by ID
- *     tags: [Users]
+ *     tags: [Orders]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -559,7 +559,7 @@
  * /api/v1/users/me/account:
  *   delete:
  *     summary: Delete own account
- *     tags: [Users]
+ *     tags: [Users,Admin]
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -602,7 +602,7 @@
  * /api/v1/users/public/{id}:
  *   get:
  *     summary: Get public user profile
- *     tags: [Users]
+ *     tags: [Users,Public]
  *     security: []
  *     parameters:
  *       - in: path

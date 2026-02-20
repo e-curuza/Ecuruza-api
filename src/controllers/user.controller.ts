@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from 'express';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '../config/db.js';
 import createError from 'http-errors';
 import { logger } from '../utils/logger.js';
 import { ApiResponseBuilder } from '../utils/ApiResponse.js';
@@ -7,7 +7,7 @@ import { uploadAvatarToR2 } from '../utils/avatar.generate.js';
 import type { AuthenticatedRequest } from '../middlewares/authenticate.js';
 import type { UserResponse } from '../utils/type.js';
 
-const prisma = new PrismaClient();
+ 
 
 function formatUserResponse(user: any): UserResponse {
   return {
@@ -26,11 +26,11 @@ function formatUserResponse(user: any): UserResponse {
   };
 }
 
-export async function getAllUsers(
+export const getAllUsers = async (
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const { page = 1, limit = 10, sortBy = 'createdAt', sortOrder = 'desc', search, role, status } = req.query;
 
@@ -81,11 +81,11 @@ export async function getAllUsers(
   }
 }
 
-export async function getUserById(
+export const getUserById = async (
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const { id } = req.params;
     if (Array.isArray(id)) throw createError(400, 'Invalid user ID');
@@ -111,11 +111,11 @@ export async function getUserById(
   }
 }
 
-export async function updateUser(
+export const updateUser = async (
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const { id } = req.params;
     if (Array.isArray(id)) throw createError(400, 'Invalid user ID');
@@ -143,11 +143,11 @@ export async function updateUser(
   }
 }
 
-export async function deleteUser(
+export const deleteUser = async (
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const { id } = req.params;
     if (Array.isArray(id)) throw createError(400, 'Invalid user ID');
@@ -165,11 +165,11 @@ export async function deleteUser(
   }
 }
 
-export async function suspendUser(
+export const suspendUser = async (
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const { id } = req.params;
     if (Array.isArray(id)) throw createError(400, 'Invalid user ID');
@@ -193,11 +193,11 @@ export async function suspendUser(
   }
 }
 
-export async function activateUser(
+export const activateUser = async (
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const { id } = req.params;
     if (Array.isArray(id)) throw createError(400, 'Invalid user ID');
@@ -220,11 +220,11 @@ export async function activateUser(
   }
 }
 
-export async function getMyProfile(
+export const getMyProfile = async (
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const userPayload = (req as any).user;
     const userId = userPayload.userId;
@@ -252,11 +252,11 @@ export async function getMyProfile(
   }
 }
 
-export async function updateMyProfile(
+export const updateMyProfile = async (
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const userPayload = (req as any).user;
     const userId = userPayload.userId;
@@ -285,11 +285,11 @@ export async function updateMyProfile(
 }
 
 
-export async function getMyAddresses(
+export const getMyAddresses = async (
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const userPayload = (req as any).user;
     const addresses = await prisma.address.findMany({
@@ -303,11 +303,11 @@ export async function getMyAddresses(
   }
 }
 
-export async function createAddress(
+export const createAddress = async (
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const userPayload = (req as any).user;
     const userId = userPayload.userId;
@@ -330,11 +330,11 @@ export async function createAddress(
   }
 }
 
-export async function updateAddress(
+export const updateAddress = async (
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const userPayload = (req as any).user;
     const userId = userPayload.userId;
@@ -358,11 +358,11 @@ export async function updateAddress(
   }
 }
 
-export async function deleteAddress(
+export const deleteAddress = async (
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const userPayload = (req as any).user;
     const userId = userPayload.userId;
@@ -381,11 +381,11 @@ export async function deleteAddress(
   }
 }
 
-export async function setDefaultAddress(
+export const setDefaultAddress = async (
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const userPayload = (req as any).user;
     const userId = userPayload.userId;
@@ -406,11 +406,11 @@ export async function setDefaultAddress(
   }
 }
 
-export async function getMyOrders(
+export const getMyOrders = async (
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const userPayload = (req as any).user;
     const userId = userPayload.userId;
@@ -444,11 +444,11 @@ export async function getMyOrders(
   }
 }
 
-export async function getMyOrderById(
+export const getMyOrderById = async (
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const userPayload = (req as any).user;
     const userId = userPayload.userId;
@@ -474,11 +474,11 @@ export async function getMyOrderById(
 }
 
 
-export async function getMyReviews(
+export const getMyReviews = async (
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const userPayload = (req as any).user;
     const userId = userPayload.userId;
@@ -506,11 +506,11 @@ export async function getMyReviews(
   }
 }
 
-export async function getMyNotifications(
+export const getMyNotifications = async (
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const userPayload = (req as any).user;
     const userId = userPayload.userId;
@@ -538,11 +538,11 @@ export async function getMyNotifications(
   }
 }
 
-export async function markNotificationRead(
+export const markNotificationRead = async (
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const userPayload = (req as any).user;
     const userId = userPayload.userId;
@@ -561,11 +561,11 @@ export async function markNotificationRead(
   }
 }
 
-export async function markAllNotificationsRead(
+export const markAllNotificationsRead = async (
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const userPayload = (req as any).user;
     await prisma.notification.updateMany({ where: { userId: userPayload.userId, isRead: false }, data: { isRead: true } });
@@ -577,11 +577,11 @@ export async function markAllNotificationsRead(
 }
 
 
-export async function getMyMessages(
+export const getMyMessages = async (
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const userPayload = (req as any).user;
     const userId = userPayload.userId;
@@ -609,11 +609,11 @@ export async function getMyMessages(
   }
 }
 
-export async function markMessageRead(
+export const markMessageRead = async (
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const userPayload = (req as any).user;
     const userId = userPayload.userId;
@@ -632,11 +632,11 @@ export async function markMessageRead(
   }
 }
 
-export async function getPublicProfile(
+export const getPublicProfile = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const { id } = req.params;
     if (Array.isArray(id)) throw createError(400, 'Invalid user ID');
@@ -661,11 +661,11 @@ export async function getPublicProfile(
 }
 
 
-export async function deleteMyAccount(
+export const deleteMyAccount = async (
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const userPayload = (req as any).user;
     const userId = userPayload.userId;
@@ -689,11 +689,11 @@ export async function deleteMyAccount(
   }
 }
 
-export async function getMyActivity(
+export const getMyActivity = async (
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const userPayload = (req as any).user;
     const userId = userPayload.userId;

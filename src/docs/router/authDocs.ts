@@ -7,10 +7,10 @@
 
 /**
  * @swagger
- * /api/v1/auth/register:
+ * /api/v1/auth/register/customer:
  *   post:
- *     summary: Register a new user
- *     tags: [Authentication]
+ *     summary: Register a new customer
+ *     tags: [Authentication,Public]
  *     security: []
  *     requestBody:
  *       required: true
@@ -24,6 +24,7 @@
  *               - email
  *               - phone
  *               - password
+ *               - confirmPassword
  *             properties:
  *               firstName:
  *                 type: string
@@ -42,17 +43,63 @@
  *                 type: string
  *                 format: password
  *                 example: "Password123"
- *               role:
+ *               confirmPassword:
  *                 type: string
- *                 enum: [CUSTOMER, SELLER, ADMIN]
- *                 example: CUSTOMER
+ *                 format: password
+ *                 example: "Password123"
  *     responses:
  *       201:
- *         description: User registered successfully with auto-generated avatar
+ *         description: Customer registered successfully with auto-generated avatar
+ *       400:
+ *         description: Validation error or passwords do not match
+ *       409:
+ *         description: User already exists
+ */
+
+/**
+ * @swagger
+ * /api/v1/auth/register/seller:
+ *   post:
+ *     summary: Register a new Seller
+ *     tags: [Sellers,Public]
+ *     security: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - fullName
+ *               - businessName
+ *               - email
+ *               - phone
+ *               - password
+ *             properties:
+ *               fullName:
+ *                 type: string
+ *                 example: dushime christian
+ *               businessName:
+ *                 type: string
+ *                 example: Golden store
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 example: dushime515@gmail.com
+ *               phone:
+ *                 type: string
+ *                 example: "+250789356234"
+ *               password:
+ *                 type: string
+ *                 format: password
+ *                 example: "Seller123"
+ *     responses:
+ *       201:
+ *         description: Seller registered successfully with auto-generated avatar
  *       400:
  *         description: Validation error
  *       409:
- *         description: User already exists
+ *         description: Seller already exists
  */
 
 /**
@@ -60,7 +107,7 @@
  * /api/v1/auth/login:
  *   post:
  *     summary: Login with email and password
- *     tags: [Authentication]
+ *     tags: [Authentication, Public]
  *     security: []
  *     requestBody:
  *       required: true
@@ -94,7 +141,7 @@
  * /api/v1/auth/google:
  *   get:
  *     summary: Get Google OAuth URL
- *     tags: [Authentication]
+ *     tags: [Authentication, Public]
  *     security: []
  *     responses:
  *       200:
@@ -120,7 +167,7 @@
  * /api/v1/auth/google/callback:
  *   get:
  *     summary: Google OAuth callback
- *     tags: [Authentication]
+ *     tags: [Authentication,Public]
  *     security: []
  *     parameters:
  *       - in: query
@@ -143,7 +190,7 @@
  * /api/v1/auth/forgot-password:
  *   post:
  *     summary: Request password reset email
- *     tags: [Authentication]
+ *     tags: [Authentication,Public]
  *     security: []
  *     requestBody:
  *       required: true
@@ -168,7 +215,7 @@
  * /api/v1/auth/reset-password:
  *   post:
  *     summary: Reset password with token
- *     tags: [Authentication]
+ *     tags: [Authentication, Public]
  *     security: []
  *     requestBody:
  *       required: true
@@ -302,7 +349,7 @@
  * /api/v1/auth/verify-email:
  *   post:
  *     summary: Verify email with OTP code
- *     tags: [Authentication]
+ *     tags: [Authentication, Public]
  *     security: []
  *     requestBody:
  *       required: true
@@ -334,7 +381,7 @@
  * /api/v1/auth/resend-verification:
  *   post:
  *     summary: Resend email verification code
- *     tags: [Authentication]
+ *     tags: [Authentication,Public]
  *     security: []
  *     requestBody:
  *       required: true

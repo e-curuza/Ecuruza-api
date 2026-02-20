@@ -35,14 +35,10 @@ import {
 
 const router = Router();
 
-// General authentication routes
 router.post('/register', registerValidation, validate, register);
 router.post('/login', loginValidation, validate, login);
 
-// Customer registration
 router.post('/register/customer', customerRegisterValidation, validate, registerCustomer);
-
-// Seller registration
 router.post('/register/seller', sellerRegisterValidation, validate, registerSeller);
 
 router.post('/refresh', refreshTokenValidation, validate, refreshToken);

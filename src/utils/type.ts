@@ -216,8 +216,11 @@ export interface OrderItemResponse {
   id: string;
   orderId: string;
   productId: string;
+  variantId?: string;
   quantity: number;
   price: number;
+  createdAt: Date;
+  updatedAt: Date;
   product?: ProductBasicResponse;
 }
 
@@ -228,6 +231,7 @@ export interface OrderResponse {
   total: number;
   paymentStatus: PaymentStatus;
   createdAt: Date;
+  updatedAt: Date;
   items?: OrderItemResponse[];
 }
 
@@ -412,4 +416,19 @@ export interface AppError {
   statusCode: number;
   message: string;
   details?: ValidationError[];
+}
+
+export interface ShopReviewResponse {
+  id: string;
+  userId: string;
+  shopId: string;
+  rating: number;
+  comment?: string;
+  createdAt: Date;
+  updatedAt: Date;
+  user?: {
+    id: string;
+    firstName: string;
+    lastName: string;
+  };
 }

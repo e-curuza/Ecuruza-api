@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from 'express';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '../config/db.js';
 import createError from 'http-errors';
 import crypto from 'crypto';
 import { logger } from '../utils/logger.js';
@@ -18,13 +18,13 @@ import { createOrUpdateOTP, verifyOTP, deleteOTP } from '../utils/otp.utils.js';
 import { sendVerificationEmail, sendPasswordResetEmail, sendPasswordChangeConfirmationEmail } from '../services/email.service.js';
 import type { AuthResponse, UserResponse, RegisterRequest, LoginRequest, AuthPayload, CustomerRegisterRequest, SellerRegisterRequest } from '../utils/type.js';
 
-const prisma = new PrismaClient();
+ 
 
-export async function register(
+export const register = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const { firstName, lastName, email, phone, password, role } = req.body as RegisterRequest;
 
@@ -104,11 +104,11 @@ export async function register(
 // =====================
 // Customer Registration
 // =====================
-export async function registerCustomer(
+export const registerCustomer = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const { firstName, lastName, email, phone, password } = req.body as CustomerRegisterRequest;
 
@@ -187,11 +187,11 @@ export async function registerCustomer(
 // =====================
 // Seller Registration
 // =====================
-export async function registerSeller(
+export const registerSeller = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const { fullName, businessName, email, phone, password } = req.body as SellerRegisterRequest;
 
@@ -284,11 +284,11 @@ export async function registerSeller(
   }
 }
 
-export async function login(
+export const login = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const { email, password } = req.body as LoginRequest;
 
@@ -359,11 +359,11 @@ export async function login(
   }
 }
 
-export async function refreshToken(
+export const refreshToken = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const { refreshToken } = req.body;
 
@@ -395,11 +395,11 @@ export async function refreshToken(
   }
 }
 
-export async function getProfile(
+export const getProfile = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const user = (req as any).user;
 
@@ -432,11 +432,11 @@ export async function getProfile(
   }
 }
 
-export async function updateProfile(
+export const updateProfile = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const user = (req as any).user;
     const { firstName, lastName, phone, bio } = req.body;
@@ -497,11 +497,11 @@ export async function updateProfile(
   }
 }
 
-export async function changePassword(
+export const changePassword = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const user = (req as any).user;
     const { currentPassword, newPassword } = req.body;
@@ -544,11 +544,11 @@ export async function changePassword(
   }
 }
 
-export async function forgotPassword(
+export const forgotPassword = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const { email } = req.body;
 
@@ -589,11 +589,11 @@ export async function forgotPassword(
   }
 }
 
-export async function resetPassword(
+export const resetPassword = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const { token, newPassword } = req.body;
 
@@ -636,11 +636,11 @@ export async function resetPassword(
   }
 }
 
-export function getGoogleAuthUrlController(
+export const getGoogleAuthUrlController = async (
   req: Request,
   res: Response,
   next: NextFunction
-): void {
+): Promise<void> =>{
   try {
     const state = crypto.randomBytes(16).toString('hex');
     const authUrl = getGoogleAuthUrl(state);
@@ -657,11 +657,11 @@ export function getGoogleAuthUrlController(
   }
 }
 
-export async function googleCallback(
+export const googleCallback = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const { code, state } = req.query;
 
@@ -739,11 +739,11 @@ export async function googleCallback(
   }
 }
 
-export async function verifyEmail(
+export const verifyEmail = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const { email, code } = req.body as { email: string; code: string };
 
@@ -776,11 +776,11 @@ export async function verifyEmail(
   }
 }
 
-export async function resendVerificationCode(
+export const resendVerificationCode = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const { email } = req.body;
 
@@ -810,11 +810,11 @@ export async function resendVerificationCode(
   }
 }
 
-export async function logout(
+export const logout = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<void> {
+): Promise<void> => {
   try {
     const user = (req as any).user;
 

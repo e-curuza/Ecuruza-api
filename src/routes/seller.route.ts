@@ -1,85 +1,68 @@
 import { Router } from 'express';
 import {
-  becomeSeller,
-  getMySellerProfile,
-  submitSellerApplication,
-  getMySellerApplication,
-  getAllSellerApplications,
-  getSellerApplicationById,
-  reviewSellerApplication,
-  updateBusinessInfo,
-  getBusinessInfo,
+  sellerGetProfile,
+  sellerUpdateProfile,
+  sellerDashboard,
+  sellerOnboardSubmitBusiness,
+  sellerOnboardGetMyBusiness,
+  sellerOnboardGetAllBusinesses,
+  sellerOnboardGetBusinessById,
+  sellerOnboardApproveBusiness,
 } from '../controllers/seller.controller.js';
 import { authenticate } from '../middlewares/authenticate.js';
 import { adminOnly } from '../middlewares/authenticate.js';
 import {
-  becomeSellerValidation,
   sellerApplicationValidation,
-  businessInfoValidation,
   reviewSellerApplicationValidation,
-  paginationValidation,
+  sellerApplicationIdValidation,
+  updateSellerProfileValidation,
   validate,
-} from '../middlewares/validations/user.validate.js';
+} from '../middlewares/validations/seller.validate.js';
 import { uploadIdentityDocument } from '../middlewares/multer.js';
 
 const router = Router();
 
 router.post(
-  '/apply',
+  '/onboarding',
   authenticate,
-  uploadIdentityDocument.single('idCard'),
+  uploadIdentityDocument.fields([
+    { name: 'idCard', maxCount: 1 }
+  ]),
   sellerApplicationValidation,
   validate,
-  submitSellerApplication
+  sellerOnboardSubmitBusiness
 );
 
-router.get('/application', authenticate, getMySellerApplication);
+router.get('/applications/me', authenticate, sellerOnboardGetMyBusiness);
 
-router.get('/business-info', authenticate, getBusinessInfo);
+router.get('/me', authenticate, sellerGetProfile);
+
+router.get('/dashboard', authenticate, sellerDashboard);
 
 router.put(
-  '/business-info',
+  '/profile',
   authenticate,
-  uploadIdentityDocument.single('idCard'),
-  businessInfoValidation,
+  uploadIdentityDocument.fields([{ name: 'avatar', maxCount: 1 }]),
+  updateSellerProfileValidation,
   validate,
-  updateBusinessInfo
+  sellerUpdateProfile
 );
-
-router.post(
-  '/become-seller',
-  authenticate,
-  becomeSellerValidation,
-  validate,
-  becomeSeller
-);
-
-router.get('/application', authenticate, getMySellerApplication);
-
-router.post(
-  '/become-seller',
-  authenticate,
-  becomeSellerValidation,
-  validate,
-  becomeSeller
-);
-
-router.get('/profile', authenticate, getMySellerProfile);
 
 router.get(
   '/applications',
   authenticate,
   adminOnly,
-  paginationValidation,
   validate,
-  getAllSellerApplications
+  sellerOnboardGetAllBusinesses
 );
 
 router.get(
   '/applications/:id',
   authenticate,
   adminOnly,
-  getSellerApplicationById
+  sellerApplicationIdValidation,
+  validate,
+  sellerOnboardGetBusinessById
 );
 
 router.post(
@@ -88,7 +71,7 @@ router.post(
   adminOnly,
   reviewSellerApplicationValidation,
   validate,
-  reviewSellerApplication
+  sellerOnboardApproveBusiness
 );
 
 export default router;

@@ -43,11 +43,11 @@ function generateAvatarFilename(userId: string): string {
   return `avatar_${userId}_${timestamp}_${randomString}.jpeg`;
 }
 
-export async function uploadAvatarToR2(
+export const uploadAvatarToR2 = async (
   buffer: Buffer,
   originalname: string,
   userId: string
-): Promise<string> {
+): Promise<string> => {
   try {
     const timestamp = Date.now();
     const randomString = crypto.randomBytes(4).toString('hex');
@@ -68,11 +68,11 @@ export async function uploadAvatarToR2(
   }
 }
 
-export async function generateAndUploadAvatar(
+export const generateAndUploadAvatar = async (
   firstName: string,
   lastName: string,
   userId: string
-): Promise<string> {
+): Promise<string> => {
   try {
     const initials = getInitials(firstName, lastName);
     const svg = generateSVGAvatar(initials);
@@ -91,10 +91,10 @@ export async function generateAndUploadAvatar(
   }
 }
 
-export async function generateAvatarDataURL(
+export const generateAvatarDataURL = async (
   firstName: string,
   lastName: string
-): Promise<string> {
+): Promise<string> => {
   try {
     const initials = getInitials(firstName, lastName);
     const svg = generateSVGAvatar(initials);
@@ -111,10 +111,10 @@ export async function generateAvatarDataURL(
   }
 }
 
-export async function generateAvatarBuffer(
+export const generateAvatarBuffer = async (
   firstName: string,
   lastName: string
-): Promise<Buffer> {
+): Promise<Buffer> => {
   const initials = getInitials(firstName, lastName);
   const svg = generateSVGAvatar(initials);
   
