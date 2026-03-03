@@ -1,10 +1,10 @@
 import type { Request, Response, NextFunction } from "express";
-import { prisma } from "../config/db";
+import { prisma } from "../config/db.js";
 import createError from 'http-errors'
-import { logger } from "../utils";
-import { ApiResponseBuilder } from "../utils/ApiResponse";
-import type { AuthenticatedRequest } from "../middlewares/authenticate";
-import type { CategoryResponse } from "../utils/type";
+import { logger } from "../utils/logger.js";
+import { ApiResponseBuilder } from "../utils/ApiResponse.js";
+import type { AuthenticatedRequest } from "../middlewares/authenticate.js";
+import type { CategoryResponse } from "../utils/type.js";
 
 const generateSlug = (name: string) =>{
     return name
