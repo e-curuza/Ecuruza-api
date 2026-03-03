@@ -1,77 +1,34 @@
-// Define enums matching Prisma schema
-export enum UserRole {
-  ADMIN = 'ADMIN',
-  SELLER = 'SELLER',
-  CUSTOMER = 'CUSTOMER'
-}
+// Import and re-export Prisma enums as types
+import type { 
+  UserRole,
+  UserStatus,
+  SellerBusinessType,
+  VerificationStatus,
+  ShopStatus,
+  ProductStatus,
+  ProductVisibility,
+  OrderStatus,
+  PaymentStatus,
+  SubscriptionStatus,
+  AdStatus,
+  SellerApplicationStatus
+} from '@prisma/client';
 
-export enum UserStatus {
-  ACTIVE = 'ACTIVE',
-  SUSPENDED = 'SUSPENDED',
-  DELETED = 'DELETED'
-}
-
-export enum SellerBusinessType {
-  INDIVIDUAL = 'INDIVIDUAL',
-  COMPANY = 'COMPANY'
-}
-
-export enum VerificationStatus {
-  PENDING = 'PENDING',
-  VERIFIED = 'VERIFIED',
-  REJECTED = 'REJECTED'
-}
-
-export enum ShopStatus {
-  PENDING = 'PENDING',
-  ACTIVE = 'ACTIVE',
-  SUSPENDED = 'SUSPENDED'
-}
-
-export enum ProductStatus {
-  DRAFT = 'DRAFT',
-  ACTIVE = 'ACTIVE',
-  OUT_OF_STOCK = 'OUT_OF_STOCK'
-}
-
-export enum ProductVisibility {
-  PUBLIC = 'PUBLIC',
-  HIDDEN = 'HIDDEN'
-}
-
-export enum OrderStatus {
-  PENDING = 'PENDING',
-  CONFIRMED = 'CONFIRMED',
-  SHIPPED = 'SHIPPED',
-  DELIVERED = 'DELIVERED',
-  CANCELLED = 'CANCELLED'
-}
-
-export enum PaymentStatus {
-  PENDING = 'PENDING',
-  COMPLETED = 'COMPLETED',
-  FAILED = 'FAILED',
-  REFUNDED = 'REFUNDED'
-}
-
-export enum SubscriptionStatus {
-  ACTIVE = 'ACTIVE',
-  INACTIVE = 'INACTIVE',
-  EXPIRED = 'EXPIRED'
-}
-
-export enum AdStatus {
-  ACTIVE = 'ACTIVE',
-  INACTIVE = 'INACTIVE',
-  EXPIRED = 'EXPIRED'
-}
-
-export enum SellerApplicationStatus {
-  PENDING = 'PENDING',
-  UNDER_REVIEW = 'UNDER_REVIEW',
-  APPROVED = 'APPROVED',
-  REJECTED = 'REJECTED'
-}
+// Re-export the types
+export type {
+  UserRole,
+  UserStatus,
+  SellerBusinessType,
+  VerificationStatus,
+  ShopStatus,
+  ProductStatus,
+  ProductVisibility,
+  OrderStatus,
+  PaymentStatus,
+  SubscriptionStatus,
+  AdStatus,
+  SellerApplicationStatus
+};
 
 export interface ApiResponse<T = unknown> {
   success: boolean;
