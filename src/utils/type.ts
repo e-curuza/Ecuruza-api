@@ -1,30 +1,77 @@
-import { $Enums } from '@prisma/client';
+// Define enums matching Prisma schema
+export enum UserRole {
+  ADMIN = 'ADMIN',
+  SELLER = 'SELLER',
+  CUSTOMER = 'CUSTOMER'
+}
 
-export type UserRole = $Enums.UserRole;
-export type UserStatus = $Enums.UserStatus;
-export type SellerBusinessType = $Enums.SellerBusinessType;
-export type VerificationStatus = $Enums.VerificationStatus;
-export type ShopStatus = $Enums.ShopStatus;
-export type ProductStatus = $Enums.ProductStatus;
-export type ProductVisibility = $Enums.ProductVisibility;
-export type OrderStatus = $Enums.OrderStatus;
-export type PaymentStatus = $Enums.PaymentStatus;
-export type SubscriptionStatus = $Enums.SubscriptionStatus;
-export type AdStatus = $Enums.AdStatus;
-export type SellerApplicationStatus = $Enums.SellerApplicationStatus;
+export enum UserStatus {
+  ACTIVE = 'ACTIVE',
+  SUSPENDED = 'SUSPENDED',
+  DELETED = 'DELETED'
+}
 
-export const UserRole = $Enums.UserRole;
-export const UserStatus = $Enums.UserStatus;
-export const SellerBusinessType = $Enums.SellerBusinessType;
-export const VerificationStatus = $Enums.VerificationStatus;
-export const ShopStatus = $Enums.ShopStatus;
-export const ProductStatus = $Enums.ProductStatus;
-export const ProductVisibility = $Enums.ProductVisibility;
-export const OrderStatus = $Enums.OrderStatus;
-export const PaymentStatus = $Enums.PaymentStatus;
-export const SubscriptionStatus = $Enums.SubscriptionStatus;
-export const AdStatus = $Enums.AdStatus;
-export const SellerApplicationStatus = $Enums.SellerApplicationStatus;
+export enum SellerBusinessType {
+  INDIVIDUAL = 'INDIVIDUAL',
+  COMPANY = 'COMPANY'
+}
+
+export enum VerificationStatus {
+  PENDING = 'PENDING',
+  VERIFIED = 'VERIFIED',
+  REJECTED = 'REJECTED'
+}
+
+export enum ShopStatus {
+  PENDING = 'PENDING',
+  ACTIVE = 'ACTIVE',
+  SUSPENDED = 'SUSPENDED'
+}
+
+export enum ProductStatus {
+  DRAFT = 'DRAFT',
+  ACTIVE = 'ACTIVE',
+  OUT_OF_STOCK = 'OUT_OF_STOCK'
+}
+
+export enum ProductVisibility {
+  PUBLIC = 'PUBLIC',
+  HIDDEN = 'HIDDEN'
+}
+
+export enum OrderStatus {
+  PENDING = 'PENDING',
+  CONFIRMED = 'CONFIRMED',
+  SHIPPED = 'SHIPPED',
+  DELIVERED = 'DELIVERED',
+  CANCELLED = 'CANCELLED'
+}
+
+export enum PaymentStatus {
+  PENDING = 'PENDING',
+  COMPLETED = 'COMPLETED',
+  FAILED = 'FAILED',
+  REFUNDED = 'REFUNDED'
+}
+
+export enum SubscriptionStatus {
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
+  EXPIRED = 'EXPIRED'
+}
+
+export enum AdStatus {
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
+  EXPIRED = 'EXPIRED'
+}
+
+export enum SellerApplicationStatus {
+  PENDING = 'PENDING',
+  UNDER_REVIEW = 'UNDER_REVIEW',
+  APPROVED = 'APPROVED',
+  REJECTED = 'REJECTED'
+}
 
 export interface ApiResponse<T = unknown> {
   success: boolean;
