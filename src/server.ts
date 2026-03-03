@@ -34,7 +34,7 @@ app.use(
 
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN || "http://localhost:3000",
+    origin: "*",
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
@@ -146,7 +146,8 @@ app.use((err: unknown, req: Request, res: Response, next: NextFunction) => {
   if (httpError.statusCode) {
     const errorResponse = ApiResponseBuilder.error(
       `HTTP_${httpError.statusCode}`,
-      httpError.message
+      httpError.message,
+      (httpError as any).details || undefined
     );
     return res.status(httpError.statusCode).json(errorResponse);
   }
