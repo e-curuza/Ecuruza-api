@@ -3,21 +3,33 @@ import { emailConfig } from '../config/email.config.js';
 import { logger } from '../utils/logger.js';
 import { AppError, ErrorCode } from '../utils/AppError.js';
 import dns from 'node:dns';
+import { promisify } from 'node:util';
 
 // Force IPv4 resolution to avoid IPv6 connectivity issues
 dns.setDefaultResultOrder('ipv4first');
 
-// Custom DNS lookup function that forces IPv4
-const dnsLookup = (hostname: string, options: any, callback: any) => {
-  dns.lookup(hostname, { family: 4, all: false }, (err, address, family) => {
-    if (err) {
-      logger.error(`DNS lookup failed for ${hostname}:`, err);
-      callback(err);
-    } else {
-      logger.debug(`DNS resolved ${hostname} to ${address} (IPv${family})`);
-      callback(null, address, family);
+const dnsLookupAsync = promisify(dns.lookup);
+
+// Custom DNS lookup function that forces IPv4 with fallback
+const dnsLookup = async (hostname: string, options: any, callback: any) => {
+  try {
+    // First try: Force IPv4 lookup
+    const result = await dnsLookupAsync(hostname, { family: 4, all: false });
+    logger.debug(`DNS resolved ${hostname} to ${result.address} (IPv4)`);
+    callback(null, result.address, 4);
+  } catch (err: any) {
+    logger.error(`DNS lookup failed for ${hostname}:`, err);
+    
+    // Fallback: Try resolving with default settings
+    try {
+      const fallbackResult = await dnsLookupAsync(hostname, { all: false });
+      logger.warn(`DNS fallback resolved ${hostname} to ${fallbackResult.address}`);
+      callback(null, fallbackResult.address, fallbackResult.family);
+    } catch (fallbackErr) {
+      logger.error(`DNS fallback also failed for ${hostname}:`, fallbackErr);
+      callback(fallbackErr);
     }
-  });
+  }
 };
 
 const transporter = nodemailer.createTransport({
@@ -36,6 +48,7 @@ const transporter = nodemailer.createTransport({
   dnsLookup,
   tls: {
     rejectUnauthorized: true,
+    minVersion: 'TLSv1.2',
   },
   // Additional options to help with connectivity
   pool: true,
@@ -43,7 +56,49 @@ const transporter = nodemailer.createTransport({
   maxMessages: 100,
   rateDelta: 1000,
   rateLimit: 5,
+  // Disable IPv6
+  family: 4,
 } as nodemailer.TransportOptions);
+
+// Retry helper function for transient network errors
+const retryOperation = async <T>(
+  operation: () => Promise<T>,
+  maxRetries: number = 3,
+  delayMs: number = 1000
+): Promise<T> => {
+  let lastError: any;
+  
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      return await operation();
+    } catch (error: any) {
+      lastError = error;
+      
+      // Check if error is retryable (network errors, timeouts, etc.)
+      const isRetryable = 
+        error.code === 'ENETUNREACH' ||
+        error.code === 'ETIMEDOUT' ||
+        error.code === 'ECONNREFUSED' ||
+        error.code === 'ENOTFOUND' ||
+        error.message?.includes('timeout') ||
+        error.message?.includes('Connection timeout');
+      
+      if (!isRetryable || attempt === maxRetries) {
+        throw error;
+      }
+      
+      logger.warn(`Attempt ${attempt}/${maxRetries} failed, retrying in ${delayMs}ms...`, {
+        error: error.message,
+        code: error.code
+      });
+      
+      // Wait before retrying with exponential backoff
+      await new Promise(resolve => setTimeout(resolve, delayMs * attempt));
+    }
+  }
+  
+  throw lastError;
+};
 
 export const sendVerificationEmail = async (
   email: string,
@@ -92,7 +147,10 @@ export const sendVerificationEmail = async (
       `,
     };
 
-    await transporter.sendMail(mailOptions);
+    await retryOperation(async () => {
+      await transporter.sendMail(mailOptions);
+    });
+    
     logger.info(`Verification email sent to ${email}`);
     return true;
   } catch (error) {
@@ -153,7 +211,10 @@ export const sendPasswordResetEmail = async (
       `,
     };
 
-    await transporter.sendMail(mailOptions);
+    await retryOperation(async () => {
+      await transporter.sendMail(mailOptions);
+    });
+    
     logger.info(`Password reset email sent to ${email}`);
     return true;
   } catch (error) {
@@ -211,7 +272,10 @@ export const sendPasswordChangeConfirmationEmail = async (
       `,
     };
 
-    await transporter.sendMail(mailOptions);
+    await retryOperation(async () => {
+      await transporter.sendMail(mailOptions);
+    });
+    
     logger.info(`Password change confirmation email sent to ${email}`);
     return true;
   } catch (error) {
@@ -239,7 +303,10 @@ export const sendEmail = async (
       html,
     };
 
-    await transporter.sendMail(mailOptions);
+    await retryOperation(async () => {
+      await transporter.sendMail(mailOptions);
+    });
+    
     logger.info(`Email sent to ${to}: ${subject}`);
     return true;
   } catch (error) {
