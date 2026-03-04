@@ -1,8 +1,13 @@
 import dotenv from 'dotenv';
+import dns from 'node:dns';
+
 dotenv.config();
 
+// Force IPv4 resolution globally
+dns.setDefaultResultOrder('ipv4first');
+
 export const emailConfig = {
-  host: process.env.EMAIL_HOST || process.env.SMTP_HOST || 'smtp.example.com',
+  host: process.env.EMAIL_HOST || process.env.SMTP_HOST || 'smtp.gmail.com',
   port: parseInt(process.env.EMAIL_PORT || process.env.SMTP_PORT || '587', 10),
   secure: process.env.EMAIL_SECURE === 'true' || process.env.SMTP_SECURE === 'true',
   user: process.env.EMAIL_USER || process.env.SMTP_USER || '',
