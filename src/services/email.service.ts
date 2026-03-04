@@ -4,8 +4,21 @@ import { logger } from '../utils/logger.js';
 import { AppError, ErrorCode } from '../utils/AppError.js';
 import dns from 'node:dns';
 
+// Force IPv4 resolution to avoid IPv6 connectivity issues
 dns.setDefaultResultOrder('ipv4first');
 
+// Custom DNS lookup function that forces IPv4
+const dnsLookup = (hostname: string, options: any, callback: any) => {
+  dns.lookup(hostname, { family: 4, all: false }, (err, address, family) => {
+    if (err) {
+      logger.error(`DNS lookup failed for ${hostname}:`, err);
+      callback(err);
+    } else {
+      logger.debug(`DNS resolved ${hostname} to ${address} (IPv${family})`);
+      callback(null, address, family);
+    }
+  });
+};
 
 const transporter = nodemailer.createTransport({
   host: emailConfig.host,
@@ -15,7 +28,22 @@ const transporter = nodemailer.createTransport({
     user: emailConfig.user,
     pass: emailConfig.password,
   },
-});
+  dnsTimeout: 30000,
+  connectionTimeout: 30000,
+  greetingTimeout: 30000,
+  socketTimeout: 30000,
+  // Force IPv4 by using custom DNS lookup
+  dnsLookup,
+  tls: {
+    rejectUnauthorized: true,
+  },
+  // Additional options to help with connectivity
+  pool: true,
+  maxConnections: 5,
+  maxMessages: 100,
+  rateDelta: 1000,
+  rateLimit: 5,
+} as nodemailer.TransportOptions);
 
 export const sendVerificationEmail = async (
   email: string,
